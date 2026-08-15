@@ -362,7 +362,9 @@
 
   const SUPABASE_KEY =
     'sb_publishable_4jDVEmu29R_wSpx0LRaX-w_ny1aHF2H';
-
+  const ACCESS_CONTROL_URL =
+  'https://script.google.com/macros/s/AKfycbxQJ5cUTRR_6MAlIvTR4mgCfcI-wK3IaEm3_4EMXrY2hKCzohBkHoynrWxBMlp3lpIT/exec';
+let accessCheckTimer = null;
 
   const supabase = createClient(
     SUPABASE_URL,
@@ -396,6 +398,70 @@
 
 
   function showMessage(element, text, type) {
+    /* ======================================================
+   CONTROL DE ACCESO AQUAELITE - GOOGLE SHEET
+   ====================================================== */
+
+function callAccessControl(action, email) {
+
+  return new Promise((resolve, reject) => {
+
+    const callbackName =
+      'aquaeliteAccess_' +
+      Date.now() +
+      '_' +
+      Math.floor(Math.random() * 100000);
+
+    const script =
+      document.createElement('script');
+
+    const cleanup = () => {
+      try {
+        delete window[callbackName];
+      } catch (e) {}
+
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    };
+
+    const timeout = setTimeout(() => {
+      cleanup();
+      reject(
+        new Error('Tiempo de espera agotado.')
+      );
+    }, 10000);
+
+    window[callbackName] = (result) => {
+
+      clearTimeout(timeout);
+      cleanup();
+      resolve(result);
+    };
+
+    const params =
+      new URLSearchParams({
+        action: action,
+        correo: email,
+        callback: callbackName
+      });
+
+    script.src =
+      ACCESS_CONTROL_URL +
+      '?' +
+      params.toString();
+
+    script.onerror = () => {
+      clearTimeout(timeout);
+      cleanup();
+      reject(
+        new Error('No se pudo consultar el control de acceso.')
+      );
+    };
+
+    document.body.appendChild(script);
+  });
+}
 
     element.textContent = text;
     element.className = 'message ' + type;
@@ -414,14 +480,132 @@
   }
 
 
-  async function showPanel(session) {
+async function showPanel(session) {
 
-    document.getElementById('userEmail').textContent =
-      session.user.email;
+  const email =
+    session?.user?.email?.toLowerCase().trim();
 
-    showOnly(panelCard);
+  if (!email) {
+    await supabase.auth.signOut();
+    showOnly(loginCard);
+
+    showMessage(
+      loginMessage,
+      'No fue posible validar tu usuario.',
+      'error'
+    );
+
+    return;
   }
 
+  try {
+
+    /* Registrar acceso y comprobar si sigue autorizado */
+    const control =
+      await callAccessControl(
+        'register_access',
+        email
+      );
+
+    /* Si Aquaelite lo marcó como REVOCADO */
+    if (
+      !control ||
+      control.ok !== true ||
+      control.revoked === true
+    ) {
+
+      await supabase.auth.signOut();
+
+      showOnly(loginCard);
+
+      showMessage(
+        loginMessage,
+        'Tu acceso no se encuentra habilitado. Comunícate con Aquaelite.',
+        'error'
+      );
+
+      return;
+    }
+
+    /* Usuario autorizado */
+    document.getElementById('userEmail').textContent =
+      email;
+
+    showOnly(panelCard);
+    startAccessWatch(email);
+
+  } catch (error) {
+
+    console.error(
+      'Error validando acceso Aquaelite:',
+      error
+    );
+
+    /* Seguridad: si no podemos consultar el control,
+       no mostramos las herramientas */
+
+    await supabase.auth.signOut();
+
+    showOnly(loginCard);
+
+    showMessage(
+      loginMessage,
+      'No pudimos validar tu acceso en este momento. Intenta nuevamente.',
+      'error'
+    );
+  }
+}
+/* ======================================================
+   VIGILAR REVOCACIÓN DURANTE SESIÓN ACTIVA
+   ====================================================== */
+
+function startAccessWatch(email) {
+
+  if (accessCheckTimer) {
+    clearInterval(accessCheckTimer);
+  }
+
+  accessCheckTimer = setInterval(async () => {
+
+    try {
+
+      const control =
+        await callAccessControl(
+          'check_access',
+          email
+        );
+
+      if (
+        !control ||
+        control.ok !== true ||
+        control.revoked === true
+      ) {
+
+        clearInterval(accessCheckTimer);
+        accessCheckTimer = null;
+
+        await supabase.auth.signOut();
+
+        showOnly(loginCard);
+
+        showMessage(
+          loginMessage,
+          'Tu acceso fue deshabilitado por Aquaelite.',
+          'error'
+        );
+      }
+
+    } catch (error) {
+
+      console.error(
+        'No se pudo verificar el estado del acceso:',
+        error
+      );
+
+    }
+
+  }, 60000);
+}
 
   async function checkSession() {
 
@@ -615,7 +799,10 @@
   document
     .getElementById('logoutBtn')
     .addEventListener('click', async () => {
-
+if (accessCheckTimer) {
+  clearInterval(accessCheckTimer);
+  accessCheckTimer = null;
+}
       await supabase.auth.signOut();
 
       showOnly(loginCard);
