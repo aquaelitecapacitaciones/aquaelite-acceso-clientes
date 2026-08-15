@@ -5,402 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aquaelite | Acceso Clientes</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #071523;
-      color: #ffffff;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .container { width: 100%; max-width: 460px; }
-    .card {
-      background: #0d2235;
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 18px;
-      padding: 34px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
-    }
-    .brand { text-align: center; margin-bottom: 28px; }
-    .brand p { color: #9cb4c8; font-size: 14px; }
-    .logo-box {
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 12px 18px;
-      margin: 0 auto 18px auto;
-      max-width: 310px;
-    }
-    .logo-box img { width: 100%; height: auto; display: block; }
-    .badge {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 7px 13px;
-      border-radius: 30px;
-      background: #123a55;
-      font-size: 12px;
-      color: #bce6ff;
-    }
-    h2 { font-size: 21px; margin-bottom: 8px; }
-    .description { color: #a9bac9; font-size: 14px; line-height: 1.5; margin-bottom: 22px; }
-    label { display: block; font-size: 13px; margin-bottom: 7px; color: #d7e3ec; }
-    input {
-      width: 100%; padding: 13px; border: 1px solid #29465d; border-radius: 9px;
-      background: #091927; color: white; margin-bottom: 17px; outline: none; font-size: 15px;
-    }
-    input:focus { border-color: #38a5df; }
-    button {
-      width: 100%; border: 0; border-radius: 9px; padding: 14px; font-size: 15px;
-      font-weight: bold; cursor: pointer; background: #168dcc; color: white;
-    }
-    button:hover { opacity: 0.92; }
-    .secondary { background: transparent; border: 1px solid #31516b; margin-top: 10px; }
-    .link { display: block; text-align: center; margin-top: 17px; color: #6dc8f8; cursor: pointer; font-size: 13px; }
-    .message { margin-top: 17px; padding: 11px; border-radius: 8px; font-size: 13px; display: none; }
-    .success { display: block; background: rgba(30,180,100,0.15); color: #7ee1aa; }
-    .error { display: block; background: rgba(220,60,60,0.15); color: #ff9797; }
-    .hidden { display: none; }
-    .tool { background: #091927; border: 1px solid #29465d; padding: 16px; border-radius: 11px; margin-top: 12px; }
-    .tool-title { font-weight: bold; margin-bottom: 5px; }
-    .tool-status { font-size: 12px; color: #74db9e; }
-    .user-email { color: #79cafa; font-size: 13px; margin-bottom: 20px; word-break: break-all; }
-    .footer { text-align: center; color: #60788b; font-size: 11px; margin-top: 20px; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Arial,Helvetica,sans-serif;background:#071523;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+    .container{width:100%;max-width:460px}.card{background:#0d2235;border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:34px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+    .brand{text-align:center;margin-bottom:28px}.logo-box{background:#fff;border-radius:12px;padding:12px 18px;margin:0 auto 18px;max-width:310px}.logo-box img{width:100%;height:auto;display:block}
+    .badge{display:inline-block;margin-top:8px;padding:7px 13px;border-radius:30px;background:#123a55;font-size:12px;color:#bce6ff}h2{font-size:21px;margin-bottom:8px}
+    .description{color:#a9bac9;font-size:14px;line-height:1.5;margin-bottom:22px}.hint{font-size:12px;line-height:1.5;color:#8fa6b9;margin-top:14px;text-align:center}
+    label{display:block;font-size:13px;margin-bottom:7px;color:#d7e3ec}input{width:100%;padding:13px;border:1px solid #29465d;border-radius:9px;background:#091927;color:#fff;margin-bottom:17px;outline:none;font-size:15px}input:focus{border-color:#38a5df}
+    button{width:100%;border:0;border-radius:9px;padding:14px;font-size:15px;font-weight:bold;cursor:pointer;background:#168dcc;color:#fff}button:hover{opacity:.92}.secondary{background:transparent;border:1px solid #31516b;margin-top:10px}.ghost{background:transparent;color:#6dc8f8;padding:10px;margin-top:7px;font-size:13px}
+    .message{margin-top:17px;padding:11px;border-radius:8px;font-size:13px;display:none}.success{display:block;background:rgba(30,180,100,.15);color:#7ee1aa}.error{display:block;background:rgba(220,60,60,.15);color:#ff9797}.info{display:block;background:rgba(56,165,223,.12);color:#9edcff}.hidden{display:none}
+    .tool{background:#091927;border:1px solid #29465d;padding:16px;border-radius:11px;margin-top:12px}.tool-title{font-weight:bold;margin-bottom:5px}.tool-status{font-size:12px;color:#74db9e}.user-email{color:#79cafa;font-size:13px;margin-bottom:20px;word-break:break-all}.footer{text-align:center;color:#60788b;font-size:11px;margin-top:20px}
   </style>
 </head>
 <body>
 <div class="container">
-
   <div id="loginCard" class="card">
-    <div class="brand">
-      <div class="logo-box"><img src="logo-aquaelite.png" alt="Aquaelite - Soluciones Integrales en Agua"></div>
-      <span class="badge">🔐 ACCESO PRIVADO</span>
-    </div>
+    <div class="brand"><div class="logo-box"><img src="logo-aquaelite.png" alt="Aquaelite - Soluciones Integrales en Agua"></div><span class="badge">🔐 ACCESO PRIVADO</span></div>
     <h2>Portal de Clientes</h2>
-    <p class="description">Ingresa con el correo autorizado para acceder a tus herramientas digitales Aquaelite.</p>
-    <label>Correo electrónico</label>
-    <input id="email" type="email" autocomplete="email" placeholder="correo@ejemplo.com">
-    <label>Contraseña</label>
-    <input id="password" type="password" autocomplete="current-password" placeholder="Tu contraseña">
+    <p class="description">Ingresa con el correo previamente autorizado por Aquaelite.</p>
+    <label>Correo electrónico</label><input id="email" type="email" autocomplete="email" placeholder="correo@ejemplo.com">
+    <label>Contraseña</label><input id="password" type="password" autocomplete="current-password" placeholder="Tu contraseña">
     <button id="loginBtn">Ingresar</button>
-    <span id="forgotLink" class="link">¿Olvidaste tu contraseña?</span>
+    <button id="forgotBtn" class="ghost" type="button">¿Olvidaste tu contraseña?</button>
+    <button id="requestAccessBtn" class="ghost" type="button">¿Primera vez? Solicitar activación</button>
     <div id="loginMessage" class="message"></div>
+    <p class="hint">La recuperación de contraseña solo funciona para cuentas que Aquaelite ya haya autorizado. Si aún no recibiste una invitación, solicita tu activación.</p>
     <div class="footer">Acceso exclusivo para clientes autorizados Aquaelite</div>
   </div>
 
   <div id="passwordCard" class="card hidden">
-    <div class="brand">
-      <div class="logo-box"><img src="logo-aquaelite.png" alt="Aquaelite - Soluciones Integrales en Agua"></div>
-      <span class="badge">✅ ACCESO VALIDADO</span>
-    </div>
+    <div class="brand"><div class="logo-box"><img src="logo-aquaelite.png" alt="Aquaelite - Soluciones Integrales en Agua"></div><span id="passwordBadge" class="badge">✅ ACCESO VALIDADO</span></div>
     <h2 id="passwordTitle">Crea tu contraseña</h2>
-    <p id="passwordDescription" class="description">Crea una contraseña personal para completar la activación de tu cuenta.</p>
-    <label>Nueva contraseña</label>
-    <input id="newPassword" type="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres">
-    <label>Confirmar contraseña</label>
-    <input id="confirmPassword" type="password" autocomplete="new-password" placeholder="Repite tu contraseña">
-    <button id="savePasswordBtn">Guardar nueva contraseña</button>
-    <button id="cancelPasswordBtn" class="secondary hidden">Cancelar</button>
+    <p id="passwordDescription" class="description">Crea una contraseña personal para completar tu acceso.</p>
+    <label>Nueva contraseña</label><input id="newPassword" type="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres">
+    <label>Confirmar contraseña</label><input id="confirmPassword" type="password" autocomplete="new-password" placeholder="Repite tu contraseña">
+    <button id="savePasswordBtn">Guardar contraseña</button>
+    <button id="cancelPasswordBtn" class="secondary" type="button">Cancelar</button>
     <div id="passwordMessage" class="message"></div>
   </div>
 
   <div id="panelCard" class="card hidden">
-    <div class="brand">
-      <div class="logo-box"><img src="logo-aquaelite.png" alt="Aquaelite - Soluciones Integrales en Agua"></div>
-      <p>Portal Digital de Clientes</p>
-      <span class="badge">🔐 SESIÓN ACTIVA</span>
-    </div>
-    <h2>Bienvenido</h2>
-    <div id="userEmail" class="user-email"></div>
-    <p class="description">Herramientas digitales incluidas en tu acceso Aquaelite.</p>
-
-    <a href="AF-01_Protocolo_Aquaelite_Diagnostico_Localizacion_Fugas_V1.pdf" target="_blank" style="text-decoration:none;color:inherit;">
-      <div class="tool"><div class="tool-title">📘 AF-01 | Protocolo Profesional de Diagnóstico y Localización de Fugas</div><div class="tool-status">● Disponible · Ver PDF</div></div>
-    </a>
-    <a href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-02/" target="_blank" style="text-decoration:none;color:inherit;">
-      <div class="tool"><div class="tool-title">🔎 AF-02 | AquaCheck – Diagnóstico Inicial</div><div class="tool-status">● Disponible · Abrir herramienta</div></div>
-    </a>
-    <a href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-03/" target="_blank" style="text-decoration:none;color:inherit;">
-      <div class="tool"><div class="tool-title">💧 AF-03 | AquaCheck – Descarte y Sectorización</div><div class="tool-status">● Disponible · Abrir herramienta</div></div>
-    </a>
-    <a href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-04/" target="_blank" style="text-decoration:none;color:inherit;">
-      <div class="tool"><div class="tool-title">🔵 AF-04 | AquaCheck – Inspección con Scanner</div><div class="tool-status">● Disponible · Abrir herramienta</div></div>
-    </a>
-    <a href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-06/" target="_blank" style="text-decoration:none;color:inherit;">
-      <div class="tool"><div class="tool-title">🔵 AF-06 | AquaCheck – Procedimiento de Intervención</div><div class="tool-status">● Disponible · Abrir herramienta</div></div>
-    </a>
-    <a href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-07/" target="_blank" style="text-decoration:none;color:inherit;">
-      <div class="tool"><div class="tool-title">🔵 AF-07 | AquaCotiza – Guía Comercial y Cotizador</div><div class="tool-status">● Disponible · Abrir herramienta</div></div>
-    </a>
-
-    <button id="changePasswordBtn" class="secondary">Cambiar contraseña</button>
-    <button id="logoutBtn" class="secondary">Cerrar sesión</button>
+    <div class="brand"><div class="logo-box"><img src="logo-aquaelite.png" alt="Aquaelite - Soluciones Integrales en Agua"></div><p style="color:#9cb4c8;font-size:14px">Portal Digital de Clientes</p><span class="badge">🔐 SESIÓN ACTIVA</span></div>
+    <h2>Bienvenido</h2><div id="userEmail" class="user-email"></div><p class="description">Herramientas digitales incluidas en tu acceso Aquaelite.</p>
+    <a href="AF-01_Protocolo_Aquaelite_Diagnostico_Localizacion_Fugas_V1.pdf" target="_blank" style="text-decoration:none;color:inherit"><div class="tool"><div class="tool-title">📘 AF-01 | Protocolo Profesional de Diagnóstico y Localización de Fugas</div><div class="tool-status">● Disponible · Ver PDF</div></div></a>
+    <a href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-02/" target="_blank" style="text-decoration:none;color:inherit"><div class="tool"><div class="tool-title">🔎 AF-02 | AquaCheck – Diagnóstico Inicial</div><div class="tool-status">● Disponible · Abrir herramienta</div></div></a>
+    <a href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-03/" target="_blank" style="text-decoration:none;color:inherit"><div class="tool"><div class="tool-title">💧 AF-03 | AquaCheck – Descarte y Sectorización</div><div class="tool-status">● Disponible · Abrir herramienta</div></div></a>
+    <a href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-04/" target="_blank" style="text-decoration:none;color:inherit"><div class="tool"><div class="tool-title">🔵 AF-04 | AquaCheck – Inspección con Scanner</div><div class="tool-status">● Disponible · Abrir herramienta</div></div></a>
+    <a href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-06/" target="_blank" style="text-decoration:none;color:inherit"><div class="tool"><div class="tool-title">🔵 AF-06 | AquaCheck – Procedimiento de Intervención</div><div class="tool-status">● Disponible · Abrir herramienta</div></div></a>
+    <a href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-07/" target="_blank" style="text-decoration:none;color:inherit"><div class="tool"><div class="tool-title">🔵 AF-07 | AquaCotiza – Guía Comercial y Cotizador</div><div class="tool-status">● Disponible · Abrir herramienta</div></div></a>
+    <button id="changePasswordBtn" class="secondary" type="button">Cambiar contraseña</button>
+    <button id="logoutBtn" class="secondary" type="button">Cerrar sesión</button>
     <div class="footer">Aquaelite® | Acceso de uso personal</div>
   </div>
 </div>
 
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+  const SUPABASE_URL='https://yoeybycojcracyzroyix.supabase.co';
+  const SUPABASE_KEY='sb_publishable_4jDVEmu29R_wSpx0LRaX-w_ny1aHF2H';
+  const ACCESS_CONTROL_URL='https://script.google.com/macros/s/AKfycbxQJ5cUTRR_6MAlIvTR4mgCfcI-wK3IaEm3_4EMXrY2hKCzohBkHoynrWxBMlp3lpIT/exec';
+  const PORTAL_URL='https://aquaelitecapacitaciones.github.io/aquaelite-acceso-clientes/';
+  const ADMIN_EMAIL='aquaelitecapacitaciones@gmail.com';
+  const hashParams=new URLSearchParams(window.location.hash.replace(/^#/,''));
+  const queryParams=new URLSearchParams(window.location.search);
+  const initialAuthType=(hashParams.get('type')||queryParams.get('type')||'').toLowerCase();
+  let accessCheckTimer=null;let passwordMode='invite';
 
-  const SUPABASE_URL = 'https://yoeybycojcracyzroyix.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_4jDVEmu29R_wSpx0LRaX-w_ny1aHF2H';
-  const ACCESS_CONTROL_URL = 'https://script.google.com/macros/s/AKfycbxQJ5cUTRR_6MAlIvTR4mgCfcI-wK3IaEm3_4EMXrY2hKCzohBkHoynrWxBMlp3lpIT/exec';
-  const PORTAL_URL = 'https://aquaelitecapacitaciones.github.io/aquaelite-acceso-clientes/';
+  const supabase=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+  const loginCard=document.getElementById('loginCard'),passwordCard=document.getElementById('passwordCard'),panelCard=document.getElementById('panelCard');
+  const loginMessage=document.getElementById('loginMessage'),passwordMessage=document.getElementById('passwordMessage');
 
-  let accessCheckTimer = null;
-  let passwordMode = 'invite';
+  function showOnly(section){loginCard.classList.add('hidden');passwordCard.classList.add('hidden');panelCard.classList.add('hidden');section.classList.remove('hidden')}
+  function showMessage(el,text,type){el.textContent=text;el.className='message '+type}
+  function clearMessage(el){el.textContent='';el.className='message'}
+  function setPasswordMode(mode){passwordMode=mode;clearMessage(passwordMessage);document.getElementById('newPassword').value='';document.getElementById('confirmPassword').value='';const title=document.getElementById('passwordTitle'),desc=document.getElementById('passwordDescription'),badge=document.getElementById('passwordBadge');if(mode==='recovery'){title.textContent='Restablece tu contraseña';desc.textContent='El enlace de recuperación fue validado. Define una nueva contraseña para continuar.';badge.textContent='🔐 RECUPERACIÓN VALIDADA'}else if(mode==='change'){title.textContent='Cambiar contraseña';desc.textContent='Define una nueva contraseña para tu cuenta Aquaelite.';badge.textContent='🔐 SESIÓN VALIDADA'}else{title.textContent='Crea tu contraseña';desc.textContent='Tu correo fue autorizado por Aquaelite. Crea una contraseña personal para completar la activación.';badge.textContent='✅ ACCESO VALIDADO'}showOnly(passwordCard)}
 
-  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
-    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
-  });
+  function callAccessControl(action,email){return new Promise((resolve,reject)=>{const callback='aquaeliteAccess_'+Date.now()+'_'+Math.floor(Math.random()*100000),script=document.createElement('script');let settled=false;const finish=()=>{if(script.parentNode)script.parentNode.removeChild(script);try{delete window[callback]}catch(e){}};const timer=setTimeout(()=>{if(settled)return;settled=true;finish();reject(new Error('Tiempo de espera agotado.'))},12000);window[callback]=(result)=>{if(settled)return;settled=true;clearTimeout(timer);finish();resolve(result)};script.onerror=()=>{if(settled)return;settled=true;clearTimeout(timer);finish();reject(new Error('No se pudo consultar el control de acceso.'))};script.src=ACCESS_CONTROL_URL+'?'+new URLSearchParams({action,correo:email,callback}).toString();document.body.appendChild(script)})}
 
-  const loginCard = document.getElementById('loginCard');
-  const passwordCard = document.getElementById('passwordCard');
-  const panelCard = document.getElementById('panelCard');
-  const loginMessage = document.getElementById('loginMessage');
-  const passwordMessage = document.getElementById('passwordMessage');
-  const passwordTitle = document.getElementById('passwordTitle');
-  const passwordDescription = document.getElementById('passwordDescription');
-  const cancelPasswordBtn = document.getElementById('cancelPasswordBtn');
+  async function showPanel(session){const email=session?.user?.email?.toLowerCase().trim();if(!email){await supabase.auth.signOut();showOnly(loginCard);showMessage(loginMessage,'No fue posible validar tu usuario.','error');return}try{const control=await callAccessControl('register_access',email);if(!control||control.ok!==true||control.revoked===true){await supabase.auth.signOut();showOnly(loginCard);showMessage(loginMessage,'Tu acceso no se encuentra habilitado. Comunícate con Aquaelite.','error');return}document.getElementById('userEmail').textContent=email;showOnly(panelCard);startAccessWatch(email)}catch(error){console.error(error);await supabase.auth.signOut();showOnly(loginCard);showMessage(loginMessage,'No pudimos validar tu acceso en este momento. Intenta nuevamente.','error')}}
+  function startAccessWatch(email){if(accessCheckTimer)clearInterval(accessCheckTimer);accessCheckTimer=setInterval(async()=>{try{const control=await callAccessControl('check_access',email);if(!control||control.ok!==true||control.revoked===true){clearInterval(accessCheckTimer);accessCheckTimer=null;await supabase.auth.signOut();showOnly(loginCard);showMessage(loginMessage,'Tu acceso fue deshabilitado por Aquaelite.','error')}}catch(e){console.error(e)}},60000)}
 
-  function showOnly(section) {
-    loginCard.classList.add('hidden');
-    passwordCard.classList.add('hidden');
-    panelCard.classList.add('hidden');
-    section.classList.remove('hidden');
-  }
+  async function checkSession(){const{data}=await supabase.auth.getSession();const session=data.session;if(!session){showOnly(loginCard);return}if(initialAuthType==='invite'){setPasswordMode('invite');return}if(initialAuthType==='recovery'){setPasswordMode('recovery');return}await showPanel(session)}
 
-  function showMessage(element, text, type) {
-    element.textContent = text;
-    element.className = 'message ' + type;
-  }
+  document.getElementById('loginBtn').addEventListener('click',async()=>{clearMessage(loginMessage);const email=document.getElementById('email').value.trim(),password=document.getElementById('password').value;if(!email||!password){showMessage(loginMessage,'Ingresa tu correo y contraseña.','error');return}const{data,error}=await supabase.auth.signInWithPassword({email,password});if(error){showMessage(loginMessage,'No se pudo iniciar sesión. Revisa tus datos o confirma que tu cuenta ya fue activada.','error');return}await showPanel(data.session)});
 
-  function clearMessage(element) {
-    element.textContent = '';
-    element.className = 'message';
-  }
+  document.getElementById('forgotBtn').addEventListener('click',async()=>{clearMessage(loginMessage);const email=document.getElementById('email').value.trim();if(!email){showMessage(loginMessage,'Primero escribe tu correo electrónico.','error');return}const{error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:PORTAL_URL});if(error){console.error(error);showMessage(loginMessage,'No se pudo procesar la recuperación en este momento. Intenta nuevamente.','error');return}showMessage(loginMessage,'Si este correo ya tiene una cuenta autorizada, recibirás un enlace para restablecer tu contraseña. Si es tu primera vez, debes usar la invitación enviada por Aquaelite.','info')});
 
-  function openPasswordCard(mode) {
-    passwordMode = mode;
-    document.getElementById('newPassword').value = '';
-    document.getElementById('confirmPassword').value = '';
-    clearMessage(passwordMessage);
+  document.getElementById('requestAccessBtn').addEventListener('click',()=>{const email=document.getElementById('email').value.trim();const subject=encodeURIComponent('Solicitud de activación | Portal Aquaelite');const body=encodeURIComponent('Hola Aquaelite, solicito activar mi acceso al Portal de Clientes.\n\nCorreo a autorizar: '+(email||'[indicar correo]')+'\n\nNombre / Empresa:\nWhatsApp:\n');window.location.href='mailto:'+ADMIN_EMAIL+'?subject='+subject+'&body='+body});
 
-    if (mode === 'change') {
-      passwordTitle.textContent = 'Cambiar contraseña';
-      passwordDescription.textContent = 'Escribe tu nueva contraseña. Debe tener al menos 8 caracteres.';
-      cancelPasswordBtn.classList.remove('hidden');
-    } else if (mode === 'recovery') {
-      passwordTitle.textContent = 'Restablecer contraseña';
-      passwordDescription.textContent = 'Tu enlace fue validado. Crea una nueva contraseña para recuperar el acceso.';
-      cancelPasswordBtn.classList.add('hidden');
-    } else {
-      passwordTitle.textContent = 'Crea tu contraseña';
-      passwordDescription.textContent = 'Tu correo ya fue autorizado por Aquaelite. Crea una contraseña personal para completar la activación de tu cuenta.';
-      cancelPasswordBtn.classList.add('hidden');
-    }
+  document.getElementById('changePasswordBtn').addEventListener('click',()=>setPasswordMode('change'));
+  document.getElementById('cancelPasswordBtn').addEventListener('click',async()=>{const{data}=await supabase.auth.getSession();if(data.session&&passwordMode==='change')await showPanel(data.session);else{await supabase.auth.signOut();showOnly(loginCard)}});
 
-    showOnly(passwordCard);
-  }
+  document.getElementById('savePasswordBtn').addEventListener('click',async()=>{clearMessage(passwordMessage);const p=document.getElementById('newPassword').value,c=document.getElementById('confirmPassword').value;if(p.length<8){showMessage(passwordMessage,'La contraseña debe tener al menos 8 caracteres.','error');return}if(p!==c){showMessage(passwordMessage,'Las contraseñas no coinciden.','error');return}const{error}=await supabase.auth.updateUser({password:p});if(error){console.error(error);showMessage(passwordMessage,'No fue posible actualizar la contraseña. Vuelve a iniciar el proceso.','error');return}history.replaceState(null,'',window.location.pathname);showMessage(passwordMessage,'Contraseña actualizada correctamente.','success');const{data}=await supabase.auth.getSession();setTimeout(()=>showPanel(data.session),700)});
 
-  function callAccessControl(action, email) {
-    return new Promise((resolve, reject) => {
-      const callbackName = 'aquaeliteAccess_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
-      const script = document.createElement('script');
-      let settled = false;
+  document.getElementById('logoutBtn').addEventListener('click',async()=>{if(accessCheckTimer){clearInterval(accessCheckTimer);accessCheckTimer=null}await supabase.auth.signOut();showOnly(loginCard);showMessage(loginMessage,'Sesión cerrada correctamente.','success')});
 
-      const cleanup = () => {
-        try { delete window[callbackName]; } catch (e) {}
-        if (script.parentNode) script.parentNode.removeChild(script);
-      };
-
-      const finish = (fn, value) => {
-        if (settled) return;
-        settled = true;
-        clearTimeout(timeout);
-        cleanup();
-        fn(value);
-      };
-
-      const timeout = setTimeout(() => {
-        finish(reject, new Error('Tiempo de espera agotado.'));
-      }, 12000);
-
-      window[callbackName] = (result) => finish(resolve, result);
-
-      const params = new URLSearchParams({ action, correo: email, callback: callbackName });
-      script.src = ACCESS_CONTROL_URL + '?' + params.toString();
-      script.onerror = () => finish(reject, new Error('No se pudo consultar el control de acceso.'));
-      document.body.appendChild(script);
-    });
-  }
-
-  function recoveryDetectedInUrl() {
-    const u = window.location.href.toLowerCase();
-    return u.includes('type=recovery');
-  }
-
-  function inviteDetectedInUrl() {
-    const u = window.location.href.toLowerCase();
-    return u.includes('type=invite');
-  }
-
-  async function showPanel(session) {
-    const email = session?.user?.email?.toLowerCase().trim();
-    if (!email) {
-      await supabase.auth.signOut();
-      showOnly(loginCard);
-      showMessage(loginMessage, 'No fue posible validar tu usuario.', 'error');
-      return;
-    }
-
-    try {
-      const control = await callAccessControl('register_access', email);
-      if (!control || control.ok !== true || control.revoked === true) {
-        await supabase.auth.signOut();
-        showOnly(loginCard);
-        showMessage(loginMessage, 'Tu acceso no se encuentra habilitado. Comunícate con Aquaelite.', 'error');
-        return;
-      }
-
-      document.getElementById('userEmail').textContent = email;
-      showOnly(panelCard);
-      startAccessWatch(email);
-    } catch (error) {
-      console.error('Error validando acceso Aquaelite:', error);
-      await supabase.auth.signOut();
-      showOnly(loginCard);
-      showMessage(loginMessage, 'No pudimos validar tu acceso en este momento. Intenta nuevamente.', 'error');
-    }
-  }
-
-  function startAccessWatch(email) {
-    if (accessCheckTimer) clearInterval(accessCheckTimer);
-    accessCheckTimer = setInterval(async () => {
-      try {
-        const control = await callAccessControl('check_access', email);
-        if (!control || control.ok !== true || control.revoked === true) {
-          clearInterval(accessCheckTimer);
-          accessCheckTimer = null;
-          await supabase.auth.signOut();
-          showOnly(loginCard);
-          showMessage(loginMessage, 'Tu acceso fue deshabilitado por Aquaelite.', 'error');
-        }
-      } catch (error) {
-        console.error('No se pudo verificar el estado del acceso:', error);
-      }
-    }, 60000);
-  }
-
-  async function checkSession() {
-    if (recoveryDetectedInUrl()) {
-      openPasswordCard('recovery');
-      return;
-    }
-    if (inviteDetectedInUrl()) {
-      openPasswordCard('invite');
-      return;
-    }
-
-    const { data } = await supabase.auth.getSession();
-    const session = data.session;
-    if (session) await showPanel(session);
-    else showOnly(loginCard);
-  }
-
-  document.getElementById('loginBtn').addEventListener('click', async () => {
-    clearMessage(loginMessage);
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-
-    if (!email || !password) {
-      showMessage(loginMessage, 'Ingresa tu correo y contraseña.', 'error');
-      return;
-    }
-
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) {
-      showMessage(loginMessage, 'No se pudo iniciar sesión. Revisa tus datos.', 'error');
-      return;
-    }
-    await showPanel(data.session);
-  });
-
-  document.getElementById('forgotLink').addEventListener('click', async () => {
-    clearMessage(loginMessage);
-    const email = document.getElementById('email').value.trim();
-    if (!email) {
-      showMessage(loginMessage, 'Escribe primero tu correo para enviarte el enlace de recuperación.', 'error');
-      return;
-    }
-
-    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: PORTAL_URL });
-    if (error) {
-      console.error('Error recovery:', error);
-      showMessage(loginMessage, 'No se pudo enviar el correo de recuperación. Intenta nuevamente.', 'error');
-      return;
-    }
-    showMessage(loginMessage, 'Te enviamos un enlace para restablecer tu contraseña. Revisa también Spam o No deseado.', 'success');
-  });
-
-  document.getElementById('changePasswordBtn').addEventListener('click', () => {
-    openPasswordCard('change');
-  });
-
-  cancelPasswordBtn.addEventListener('click', async () => {
-    const { data } = await supabase.auth.getSession();
-    if (data.session) await showPanel(data.session);
-    else showOnly(loginCard);
-  });
-
-  document.getElementById('savePasswordBtn').addEventListener('click', async () => {
-    clearMessage(passwordMessage);
-    const password = document.getElementById('newPassword').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-
-    if (password.length < 8) {
-      showMessage(passwordMessage, 'La contraseña debe tener al menos 8 caracteres.', 'error');
-      return;
-    }
-    if (password !== confirmPassword) {
-      showMessage(passwordMessage, 'Las contraseñas no coinciden.', 'error');
-      return;
-    }
-
-    const { error } = await supabase.auth.updateUser({ password });
-    if (error) {
-      console.error('Error update password:', error);
-      showMessage(passwordMessage, 'No fue posible actualizar la contraseña. Vuelve a solicitar el enlace de recuperación.', 'error');
-      return;
-    }
-
-    history.replaceState(null, '', window.location.pathname);
-    showMessage(passwordMessage, 'Contraseña actualizada correctamente.', 'success');
-
-    setTimeout(async () => {
-      const { data } = await supabase.auth.getSession();
-      if (data.session) await showPanel(data.session);
-      else showOnly(loginCard);
-    }, 700);
-  });
-
-  document.getElementById('logoutBtn').addEventListener('click', async () => {
-    if (accessCheckTimer) {
-      clearInterval(accessCheckTimer);
-      accessCheckTimer = null;
-    }
-    await supabase.auth.signOut();
-    document.getElementById('password').value = '';
-    showOnly(loginCard);
-  });
-
-  supabase.auth.onAuthStateChange((event, session) => {
-    if (event === 'PASSWORD_RECOVERY' && session) {
-      openPasswordCard('recovery');
-    }
-  });
-
+  supabase.auth.onAuthStateChange((event,session)=>{if(event==='PASSWORD_RECOVERY'&&session)setPasswordMode('recovery')});
   checkSession();
 </script>
 </body>
