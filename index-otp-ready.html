@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Aquaelite | Kit de Fugas y Pruebas</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,Helvetica,sans-serif;background:#071523;color:#fff;min-height:100vh;padding:20px}.container{width:100%;max-width:760px;margin:30px auto}.card{background:#0d2235;border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:30px;box-shadow:0 20px 50px rgba(0,0,0,.35);margin-bottom:18px}.brand{text-align:center;margin-bottom:26px}.logo-box{background:#fff;border-radius:12px;padding:12px 18px;margin:0 auto 16px;max-width:310px}.logo-box img{width:100%;height:auto;display:block}.badge{display:inline-block;margin-top:8px;padding:7px 13px;border-radius:30px;background:#123a55;font-size:12px;color:#bce6ff}h1{font-size:24px;margin-bottom:8px}h2{font-size:20px;margin-bottom:8px}.description{color:#a9bac9;font-size:14px;line-height:1.5;margin-bottom:22px}label{display:block;font-size:13px;margin-bottom:7px;color:#d7e3ec}input{width:100%;padding:14px;border:1px solid #29465d;border-radius:9px;background:#091927;color:#fff;margin-bottom:17px;outline:none;font-size:16px}input:focus{border-color:#38a5df}button{width:100%;border:0;border-radius:9px;padding:14px;font-size:15px;font-weight:bold;cursor:pointer;background:#168dcc;color:#fff}.secondary{background:transparent;border:1px solid #31516b;margin-top:10px}.message{margin-top:17px;padding:11px;border-radius:8px;font-size:13px;display:none;line-height:1.45}.success{display:block;background:rgba(30,180,100,.15);color:#7ee1aa}.error{display:block;background:rgba(220,60,60,.15);color:#ff9797}.info{display:block;background:rgba(50,140,220,.15);color:#9bd4ff}.hidden{display:none}.tool{display:block;text-decoration:none;color:inherit;background:#091927;border:1px solid #29465d;padding:17px;border-radius:11px;margin-top:12px}.tool:hover{border-color:#38a5df}.tool-title{font-weight:bold;margin-bottom:6px}.tool-status{font-size:12px;color:#74db9e}.user-email{color:#79cafa;font-size:13px;margin-bottom:20px;word-break:break-all}.footer{text-align:center;color:#60788b;font-size:11px;margin-top:20px}.fine{font-size:11px;color:#71899c;line-height:1.5;margin-top:14px}@media(max-width:600px){.container{margin:8px auto}.card{padding:23px}}
+</style>
+</head>
+<body>
+<div class="container">
+<section id="gateCard" class="card">
+  <div class="brand"><div class="logo-box"><img src="logo-aquaelite.png" alt="Aquaelite"></div><span class="badge">🔐 ACCESO PRIVADO</span></div>
+  <h1>Kit de Fugas y Pruebas</h1>
+  <p class="description">Ingresa el mismo correo que registraste con Aquaelite. Si tu acceso está habilitado, recibirás un código personal de 6 dígitos.</p>
+  <label>Correo electrónico</label>
+  <input id="email" type="email" autocomplete="email" placeholder="correo@ejemplo.com">
+  <button id="sendBtn">ENVIAR MI CÓDIGO</button>
+  <div id="gateMessage" class="message"></div>
+  <p class="fine">El código vence en 15 minutos. Después de validarlo, tu sesión se mantiene hasta 48 horas en este dispositivo.</p>
+</section>
+
+<section id="verifyCard" class="card hidden">
+  <div class="brand"><div class="logo-box"><img src="logo-aquaelite.png" alt="Aquaelite"></div><span class="badge">📩 REVISA TU CORREO</span></div>
+  <h2>Ingresa tu código</h2>
+  <p class="description">Enviamos un código de 6 dígitos a <b id="maskedEmail"></b>.</p>
+  <label>Código de acceso</label>
+  <input id="otp" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="000000">
+  <button id="verifyBtn">VERIFICAR Y ACCEDER</button>
+  <button id="resendBtn" class="secondary">REENVIAR CÓDIGO</button>
+  <button id="changeEmailBtn" class="secondary">USAR OTRO CORREO</button>
+  <div id="verifyMessage" class="message"></div>
+</section>
+
+<section id="panelCard" class="card hidden">
+  <div class="brand"><div class="logo-box"><img src="logo-aquaelite.png" alt="Aquaelite"></div><span class="badge">✓ ACCESO HABILITADO</span></div>
+  <h2 id="welcome">Bienvenido</h2>
+  <div id="userEmail" class="user-email"></div>
+  <p class="description">Herramientas digitales incluidas en tu acceso Aquaelite.</p>
+
+  <a class="tool" href="AF-01_Protocolo_Aquaelite_Diagnostico_Localizacion_Fugas_V1.pdf" target="_blank" rel="noopener"><div class="tool-title">📘 AF-01 | Protocolo Profesional de Diagnóstico y Localización de Fugas</div><div class="tool-status">● Disponible · Ver PDF</div></a>
+  <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-02/" target="_blank" rel="noopener"><div class="tool-title">🔎 AF-02 | AquaCheck – Diagnóstico Inicial</div><div class="tool-status">● Disponible · Abrir herramienta</div></a>
+  <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-03/" target="_blank" rel="noopener"><div class="tool-title">💧 AF-03 | AquaCheck – Descarte y Sectorización</div><div class="tool-status">● Disponible · Abrir herramienta</div></a>
+  <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-04/" target="_blank" rel="noopener"><div class="tool-title">🔵 AF-04 | AquaCheck – Inspección con Scanner</div><div class="tool-status">● Disponible · Abrir herramienta</div></a>
+  <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-06/" target="_blank" rel="noopener"><div class="tool-title">🔵 AF-06 | AquaCheck – Procedimiento de Intervención</div><div class="tool-status">● Disponible · Abrir herramienta</div></a>
+  <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-07/" target="_blank" rel="noopener"><div class="tool-title">🔵 AF-07 | AquaCotiza – Guía Comercial y Cotizador</div><div class="tool-status">● Disponible · Abrir herramienta</div></a>
+  <button id="logoutBtn" class="secondary">CERRAR SESIÓN</button>
+  <div class="footer">Aquaelite® | Acceso de uso personal</div>
+</section>
+</div>
+<script>
+const APP_URL='https://script.google.com/macros/s/AKfycbxQJ5cUTRR_6MAlIvTR4mgCfcI-wK3IaEm3_4EMXrY2hKCzohBkHoynrWxBMlp3lpIT/exec';
+let currentEmail='';
+const $=id=>document.getElementById(id);
+function showOnly(card){[$('gateCard'),$('verifyCard'),$('panelCard')].forEach(c=>c.classList.add('hidden'));card.classList.remove('hidden')}
+function msg(el,text,type){el.textContent=text;el.className='message '+type}
+function clearMsg(el){el.textContent='';el.className='message'}
+function validEmail(x){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x)}
+function jsonp(params,cb){const name='aq_'+Date.now()+'_'+Math.random().toString(36).slice(2),script=document.createElement('script');let done=false;const finish=()=>{if(done)return;done=true;try{delete window[name]}catch(e){};script.remove()};const timer=setTimeout(()=>{finish();cb({ok:false,message:'Tiempo de espera agotado. Intenta nuevamente.'})},15000);window[name]=d=>{clearTimeout(timer);finish();cb(d)};script.src=APP_URL+'?'+new URLSearchParams({...params,callback:name});script.onerror=()=>{clearTimeout(timer);finish();cb({ok:false,message:'No pudimos conectar con el sistema de acceso.'})};document.body.appendChild(script)}
+function requestCode(){currentEmail=$('email').value.trim().toLowerCase();clearMsg($('gateMessage'));if(!validEmail(currentEmail)){msg($('gateMessage'),'Ingresa un correo válido.','error');return}$('sendBtn').disabled=true;$('sendBtn').textContent='ENVIANDO...';jsonp({action:'request_code',correo:currentEmail},d=>{$('sendBtn').disabled=false;$('sendBtn').textContent='ENVIAR MI CÓDIGO';if(d&&d.ok){$('maskedEmail').textContent=d.maskedEmail||currentEmail;showOnly($('verifyCard'));$('otp').focus()}else msg($('gateMessage'),(d&&d.message)||'No pudimos enviar el código.','error')})}
+function verifyCode(){const code=$('otp').value.trim();clearMsg($('verifyMessage'));if(!/^\d{6}$/.test(code)){msg($('verifyMessage'),'Ingresa el código de 6 dígitos.','error');return}$('verifyBtn').disabled=true;$('verifyBtn').textContent='VALIDANDO...';jsonp({action:'verify_code',correo:currentEmail,codigo:code},d=>{$('verifyBtn').disabled=false;$('verifyBtn').textContent='VERIFICAR Y ACCEDER';if(d&&d.ok){localStorage.setItem('kit_email',d.correo||currentEmail);localStorage.setItem('kit_token',d.token);localStorage.setItem('kit_expires',String(d.expiresAt||0));localStorage.setItem('kit_name',d.nombre||'');showPanel(d.nombre||'',d.correo||currentEmail)}else msg($('verifyMessage'),(d&&d.message)||'No pudimos validar el código.','error')})}
+function resend(){clearMsg($('verifyMessage'));jsonp({action:'request_code',correo:currentEmail},d=>{if(d&&d.ok)msg($('verifyMessage'),'Te enviamos un nuevo código.','success');else msg($('verifyMessage'),(d&&d.message)||'No pudimos reenviar el código.','error')})}
+function showPanel(name,email){$('welcome').textContent=name?'Bienvenido, '+name:'Bienvenido';$('userEmail').textContent=email||currentEmail;showOnly($('panelCard'))}
+function clearSession(){['kit_email','kit_token','kit_expires','kit_name'].forEach(k=>localStorage.removeItem(k))}
+function checkStoredSession(){const email=localStorage.getItem('kit_email'),token=localStorage.getItem('kit_token'),exp=Number(localStorage.getItem('kit_expires')||0),name=localStorage.getItem('kit_name')||'';if(!email||!token||!exp||Date.now()>exp){clearSession();showOnly($('gateCard'));return}currentEmail=email;jsonp({action:'check_session',correo:email,token},d=>{if(d&&d.ok)showPanel(d.nombre||name,email);else{clearSession();showOnly($('gateCard'));if(d&&d.message)msg($('gateMessage'),d.message,'error')}})}
+$('sendBtn').onclick=requestCode;$('verifyBtn').onclick=verifyCode;$('resendBtn').onclick=resend;$('changeEmailBtn').onclick=()=>{currentEmail='';$('otp').value='';showOnly($('gateCard'))};$('logoutBtn').onclick=()=>{clearSession();currentEmail='';showOnly($('gateCard'))};$('email').addEventListener('keydown',e=>{if(e.key==='Enter')requestCode()});$('otp').addEventListener('keydown',e=>{if(e.key==='Enter')verifyCode()});
+checkStoredSession();
+</script>
+</body>
+</html>
