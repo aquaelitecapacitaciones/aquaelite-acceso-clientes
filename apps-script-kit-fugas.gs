@@ -1,280 +1,172 @@
-const ADMIN_EMAIL = "aquaelitecapacitaciones@gmail.com";
-const MASTER_SPREADSHEET_NAME = "Aquaelite PRO - Accesos A130";
+const SPREADSHEET_ID = "1n-HDB2oNl9PU3vJYM_TSyCuyHLOERvC-hTqWirUXX_I";
 const SHEET_NAME = "Kit de Fugas y Pruebas";
 const TOOL_NAME = "KIT-FUGAS-Y-PRUEBAS";
+const CODE_MINUTES = 15;
+const SESSION_HOURS = 48;
 
 function doGet(e) {
+  const data = (e && e.parameter) ? e.parameter : {};
+  const action = String(data.action || "status").trim();
+  const callback = data.callback || "aquaeliteCallback";
+  let result;
   try {
-    const data = (e && e.parameter) ? e.parameter : {};
-    const action = data.action || "status";
-    const callback = data.callback || "aquaeliteCallback";
-    let result;
-
-    if (action === "register_application") result = registerApplication(data);
-    else if (action === "register_access") result = registerAccess(data);
+    if (action === "request_code") result = requestCode(data);
+    else if (action === "verify_code") result = verifyCode(data);
+    else if (action === "check_session") result = checkSession(data);
     else if (action === "check_access") result = checkAccess(data);
-    else result = {
-      ok: true,
-      system: "Aquaelite - Kit de Fugas y Pruebas",
-      message: "Control de accesos activo"
-    };
-
-    return jsonp(result, callback);
+    else result = {ok:true, system:"Aquaelite - Kit de Fugas y Pruebas", message:"Control de accesos activo"};
   } catch (err) {
-    return jsonp({
-      ok: false,
-      message: "Error interno.",
-      error: String(err)
-    }, (e && e.parameter && e.parameter.callback) || "aquaeliteCallback");
+    result = {ok:false, message:"Error interno.", error:String(err)};
   }
+  return jsonp(result, callback);
 }
 
-/* =========================================================
-   AUTORREGISTRO DEL COMPRADOR
-   - El cliente llena sus datos.
-   - La fila se crea automáticamente como PENDIENTE.
-   - Aquaelite solo cambia Estado a ACTIVO o REVOCADO.
-========================================================= */
-function registerApplication(data) {
-  const nombre = clean(data.nombre);
+function requestCode(data) {
   const correo = clean(data.correo).toLowerCase();
-  const whatsapp = normalizePhone(data.whatsapp);
-
-  if (!nombre || !validEmail(correo) || whatsapp.length < 9) {
-    return { ok: false, message: "Completa correctamente nombre, WhatsApp y correo." };
-  }
-
-  const sheet = getSheet();
-  const byEmail = findByEmail(sheet, correo);
-  const byWhatsapp = findByWhatsapp(sheet, whatsapp);
-
-  /* Evitar que un correo y un WhatsApp queden en filas distintas */
-  if (byEmail && byWhatsapp && byEmail.rowNumber !== byWhatsapp.rowNumber) {
-    return {
-      ok: false,
-      conflict: true,
-      message: "El correo o WhatsApp ya está asociado a otro registro. Comunícate con Aquaelite."
-    };
-  }
-
-  const row = byEmail || byWhatsapp;
-  const now = new Date();
-
-  if (row) {
-    const v = row.values;
-    const estado = String(v[5] || "PENDIENTE").toUpperCase().trim();
-    const correoActual = String(v[1] || "").toLowerCase().trim();
-    const whatsappActual = normalizePhone(v[2]);
-
-    if (correoActual && correoActual !== correo) {
-      return { ok: false, conflict: true, message: "Este WhatsApp ya está asociado a otro correo." };
-    }
-    if (whatsappActual && whatsappActual !== whatsapp) {
-      return { ok: false, conflict: true, message: "Este correo ya está asociado a otro WhatsApp." };
-    }
-    if (estado === "REVOCADO") {
-      return { ok: false, revoked: true, estado: "REVOCADO", message: "Este acceso fue revocado. Comunícate con Aquaelite." };
-    }
-
-    sheet.getRange(row.rowNumber, 1).setValue(nombre);
-    sheet.getRange(row.rowNumber, 2).setValue(correo);
-    sheet.getRange(row.rowNumber, 3).setValue(whatsapp);
-    if (!v[3]) sheet.getRange(row.rowNumber, 4).setValue(now);
-    sheet.getRange(row.rowNumber, 14).setValue(TOOL_NAME);
-
-    if (estado === "ACTIVO") {
-      return {
-        ok: true,
-        approved: true,
-        estado: "ACTIVO",
-        nombre,
-        correo,
-        whatsapp,
-        message: "Tu registro ya fue autorizado por Aquaelite."
-      };
-    }
-
-    /* Cualquier estado distinto de ACTIVO/REVOCADO se normaliza a PENDIENTE */
-    sheet.getRange(row.rowNumber, 6).setValue("PENDIENTE");
-
-    return {
-      ok: true,
-      approved: false,
-      pending: true,
-      estado: "PENDIENTE",
-      nombre,
-      correo,
-      whatsapp,
-      message: "Tu solicitud está pendiente de aprobación por Aquaelite."
-    };
-  }
-
-  /* Nuevo registro: toda la fila se crea automáticamente */
-  sheet.appendRow([
-    nombre,                 // A Nombre
-    correo,                 // B Correo
-    whatsapp,               // C WhatsApp
-    now,                    // D Fecha registro
-    "",                     // E Código
-    "PENDIENTE",            // F Estado
-    "",                     // G Código enviado
-    "",                     // H Código vence
-    "",                     // I Primer acceso
-    "",                     // J Último acceso
-    0,                      // K N.º accesos
-    "",                     // L Token sesión
-    "",                     // M Sesión vence
-    TOOL_NAME               // N Herramienta
-  ]);
-
-  try {
-    MailApp.sendEmail(
-      ADMIN_EMAIL,
-      "Solicitud pendiente | Kit de Fugas y Pruebas | " + nombre,
-      "Se registró automáticamente una nueva solicitud.\n\n" +
-      "Nombre: " + nombre +
-      "\nCorreo: " + correo +
-      "\nWhatsApp: " + whatsapp +
-      "\nFecha: " + formatDate(now) +
-      "\nEstado: PENDIENTE\n\n" +
-      "Para autorizar, cambia la columna Estado a ACTIVO en la pestaña '" + SHEET_NAME + "'."
-    );
-  } catch (e) {}
-
-  return {
-    ok: true,
-    approved: false,
-    pending: true,
-    estado: "PENDIENTE",
-    nombre,
-    correo,
-    whatsapp,
-    firstRegistration: true,
-    message: "Solicitud registrada. Aquaelite debe autorizar tu acceso."
-  };
-}
-
-/* =========================================================
-   REGISTRAR INGRESO SOLO SI ESTÁ ACTIVO
-========================================================= */
-function registerAccess(data) {
-  const correo = clean(data.correo).toLowerCase();
-  if (!validEmail(correo)) return { ok: false, message: "Correo no válido." };
+  if (!validEmail(correo)) return {ok:false, message:"Ingresa un correo válido."};
 
   const sheet = getSheet();
   const row = findByEmail(sheet, correo);
-  if (!row) {
-    return {
-      ok: false,
-      notRegistered: true,
-      message: "No encontramos una solicitud para este correo. Registra primero tu compra."
-    };
-  }
+  if (!row) return {ok:false, notRegistered:true, message:"Este correo no está habilitado. Verifica que sea el mismo correo registrado con Aquaelite."};
 
   const v = row.values;
-  const estado = String(v[5] || "PENDIENTE").toUpperCase().trim();
+  const estado = String(v[5] || "").toUpperCase().trim();
+  if (estado === "REVOCADO") return {ok:false, revoked:true, message:"Tu acceso fue revocado. Comunícate con Aquaelite."};
+  if (estado !== "ACTIVO") return {ok:false, pending:true, message:"Tu acceso todavía no está habilitado. Comunícate con Aquaelite."};
 
-  if (estado === "REVOCADO") {
-    return { ok: false, revoked: true, estado: "REVOCADO", message: "Este acceso fue revocado." };
-  }
-  if (estado !== "ACTIVO") {
-    return { ok: false, pending: true, estado: "PENDIENTE", message: "Tu acceso aún está pendiente de aprobación." };
-  }
-
+  const code = String(Math.floor(100000 + Math.random() * 900000));
   const now = new Date();
-  if (!v[8]) sheet.getRange(row.rowNumber, 9).setValue(now);
-  sheet.getRange(row.rowNumber, 10).setValue(now);
+  const expires = new Date(now.getTime() + CODE_MINUTES * 60 * 1000);
+
+  sheet.getRange(row.rowNumber, 5).setValue(code);              // E Código
+  sheet.getRange(row.rowNumber, 7).setValue(now);               // G Código enviado
+  sheet.getRange(row.rowNumber, 8).setValue(expires);           // H Código vence
+  sheet.getRange(row.rowNumber, 14).setValue(TOOL_NAME);        // N Herramienta
+
+  MailApp.sendEmail({
+    to: correo,
+    subject: "Código de acceso | Herramientas Aquaelite",
+    htmlBody:
+      '<div style="font-family:Arial,sans-serif;color:#102a43;max-width:560px;margin:auto">' +
+      '<h2 style="color:#0b2748">AQUAELITE®</h2>' +
+      '<p>Tu código personal para ingresar al <b>Kit de Fugas y Pruebas</b> es:</p>' +
+      '<div style="font-size:34px;font-weight:800;letter-spacing:7px;color:#155a96;margin:22px 0">' + code + '</div>' +
+      '<p>Este código vence en <b>' + CODE_MINUTES + ' minutos</b>.</p>' +
+      '<p style="font-size:12px;color:#6b7c8f">Si no solicitaste este código, puedes ignorar este mensaje.</p>' +
+      '</div>'
+  });
+
+  return {ok:true, maskedEmail:maskEmail(correo), expiresAt:expires.getTime(), message:"Código enviado."};
+}
+
+function verifyCode(data) {
+  const correo = clean(data.correo).toLowerCase();
+  const codigo = clean(data.codigo);
+  if (!validEmail(correo) || !/^\d{6}$/.test(codigo)) return {ok:false, message:"Correo o código no válido."};
+
+  const sheet = getSheet();
+  const row = findByEmail(sheet, correo);
+  if (!row) return {ok:false, notRegistered:true, message:"Usuario no registrado."};
+
+  const v = row.values;
+  const estado = String(v[5] || "").toUpperCase().trim();
+  if (estado === "REVOCADO") return {ok:false, revoked:true, message:"Tu acceso fue revocado."};
+  if (estado !== "ACTIVO") return {ok:false, pending:true, message:"Tu acceso no está habilitado."};
+
+  const storedCode = String(v[4] || "").trim();
+  const codeExpires = asDate(v[7]);
+  const now = new Date();
+  if (!storedCode || storedCode !== codigo) return {ok:false, message:"El código ingresado no es correcto."};
+  if (!codeExpires || now.getTime() > codeExpires.getTime()) return {ok:false, expired:true, message:"El código venció. Solicita uno nuevo."};
+
+  const token = Utilities.getUuid().replace(/-/g, "") + Utilities.getUuid().replace(/-/g, "");
+  const sessionExpires = new Date(now.getTime() + SESSION_HOURS * 60 * 60 * 1000);
   const accesses = Number(v[10] || 0) + 1;
-  sheet.getRange(row.rowNumber, 11).setValue(accesses);
-  sheet.getRange(row.rowNumber, 14).setValue(TOOL_NAME);
+
+  sheet.getRange(row.rowNumber, 5).clearContent();               // E limpiar código
+  if (!v[8]) sheet.getRange(row.rowNumber, 9).setValue(now);     // I primer acceso
+  sheet.getRange(row.rowNumber, 10).setValue(now);               // J último acceso
+  sheet.getRange(row.rowNumber, 11).setValue(accesses);          // K accesos
+  sheet.getRange(row.rowNumber, 12).setValue(token);             // L token
+  sheet.getRange(row.rowNumber, 13).setValue(sessionExpires);    // M sesión vence
+  sheet.getRange(row.rowNumber, 14).setValue(TOOL_NAME);         // N herramienta
 
   return {
-    ok: true,
-    estado: "ACTIVO",
-    nombre: v[0],
-    correo,
-    whatsapp: normalizePhone(v[2]),
-    accesos
+    ok:true,
+    estado:"ACTIVO",
+    nombre:String(v[0] || "").trim(),
+    correo:correo,
+    token:token,
+    expiresAt:sessionExpires.getTime(),
+    accesos:accesses
   };
 }
 
-/* =========================================================
-   VIGILANCIA DE ACTIVO / REVOCADO
-========================================================= */
+function checkSession(data) {
+  const correo = clean(data.correo).toLowerCase();
+  const token = clean(data.token);
+  if (!validEmail(correo) || !token) return {ok:false, message:"Sesión no válida."};
+
+  const sheet = getSheet();
+  const row = findByEmail(sheet, correo);
+  if (!row) return {ok:false, notRegistered:true, message:"Usuario no registrado."};
+
+  const v = row.values;
+  const estado = String(v[5] || "").toUpperCase().trim();
+  if (estado === "REVOCADO") return {ok:false, revoked:true, message:"Tu acceso fue revocado."};
+  if (estado !== "ACTIVO") return {ok:false, pending:true, message:"Tu acceso no está habilitado."};
+
+  const storedToken = String(v[11] || "").trim();
+  const sessionExpires = asDate(v[12]);
+  const now = new Date();
+  if (!storedToken || storedToken !== token) return {ok:false, message:"La sesión no es válida."};
+  if (!sessionExpires || now.getTime() > sessionExpires.getTime()) return {ok:false, expired:true, message:"Tu sesión venció. Solicita un nuevo código."};
+
+  sheet.getRange(row.rowNumber, 10).setValue(now);
+  return {ok:true, estado:"ACTIVO", nombre:String(v[0] || "").trim(), correo:correo, expiresAt:sessionExpires.getTime()};
+}
+
 function checkAccess(data) {
   const correo = clean(data.correo).toLowerCase();
-  if (!validEmail(correo)) return { ok: false, message: "Correo no válido." };
-
-  const sheet = getSheet();
-  const row = findByEmail(sheet, correo);
-  if (!row) return { ok: false, notRegistered: true, message: "Usuario no registrado." };
-
-  const v = row.values;
-  const estado = String(v[5] || "PENDIENTE").toUpperCase().trim();
-  if (estado === "REVOCADO") return { ok: false, revoked: true, estado: "REVOCADO", message: "Acceso revocado." };
-  if (estado !== "ACTIVO") return { ok: false, pending: true, estado: "PENDIENTE", message: "Acceso pendiente de aprobación." };
-
-  sheet.getRange(row.rowNumber, 10).setValue(new Date());
-  return { ok: true, estado: "ACTIVO", nombre: v[0], correo };
+  if (!validEmail(correo)) return {ok:false, message:"Correo no válido."};
+  const row = findByEmail(getSheet(), correo);
+  if (!row) return {ok:false, notRegistered:true, message:"Usuario no registrado."};
+  const estado = String(row.values[5] || "").toUpperCase().trim();
+  if (estado === "REVOCADO") return {ok:false, revoked:true, estado:"REVOCADO", message:"Acceso revocado."};
+  if (estado !== "ACTIVO") return {ok:false, pending:true, estado:estado || "PENDIENTE", message:"Acceso no habilitado."};
+  return {ok:true, estado:"ACTIVO", nombre:String(row.values[0] || "").trim(), correo:correo};
 }
 
-/* =========================================================
-   GOOGLE SHEET MAESTRO
-========================================================= */
 function getSheet() {
-  const files = DriveApp.getFilesByName(MASTER_SPREADSHEET_NAME);
-  let ss = null;
-
-  while (files.hasNext()) {
-    const file = files.next();
-    if (file.getMimeType() === MimeType.GOOGLE_SHEETS) {
-      ss = SpreadsheetApp.openById(file.getId());
-      break;
-    }
-  }
-
-  if (!ss) throw new Error("No se encontró el Google Sheet maestro: " + MASTER_SPREADSHEET_NAME);
-
-  let sheet = ss.getSheetByName(SHEET_NAME);
-  if (!sheet) sheet = ss.insertSheet(SHEET_NAME);
-
-  if (sheet.getLastRow() === 0) {
-    sheet.appendRow([
-      "Nombre","Correo","WhatsApp","Fecha registro","Código","Estado",
-      "Código enviado","Código vence","Primer acceso","Último acceso",
-      "N.º accesos","Token sesión","Sesión vence","Herramienta"
-    ]);
-    sheet.setFrozenRows(1);
-  }
-
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET_NAME);
+  if (!sheet) throw new Error("No se encontró la pestaña: " + SHEET_NAME);
   return sheet;
-}
-
-function findByWhatsapp(sheet, phone) {
-  if (sheet.getLastRow() < 2) return null;
-  const values = sheet.getRange(2, 1, sheet.getLastRow() - 1, 14).getValues();
-  for (let i = 0; i < values.length; i++) {
-    if (normalizePhone(values[i][2]) === phone) return { rowNumber: i + 2, values: values[i] };
-  }
-  return null;
 }
 
 function findByEmail(sheet, email) {
   if (sheet.getLastRow() < 2) return null;
   const values = sheet.getRange(2, 1, sheet.getLastRow() - 1, 14).getValues();
   for (let i = 0; i < values.length; i++) {
-    if (String(values[i][1] || "").toLowerCase().trim() === email) return { rowNumber: i + 2, values: values[i] };
+    if (String(values[i][1] || "").toLowerCase().trim() === email) return {rowNumber:i + 2, values:values[i]};
   }
   return null;
 }
 
-function normalizePhone(value) {
-  const digits = String(value || "").replace(/\D/g, "");
-  return digits.length > 9 ? digits.slice(-9) : digits;
+function asDate(value) {
+  if (!value) return null;
+  if (Object.prototype.toString.call(value) === "[object Date]" && !isNaN(value.getTime())) return value;
+  const d = new Date(value);
+  return isNaN(d.getTime()) ? null : d;
 }
 function clean(value) { return String(value || "").trim(); }
 function validEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
-function formatDate(date) { return Utilities.formatDate(new Date(date), "America/Lima", "dd/MM/yyyy HH:mm:ss"); }
+function maskEmail(email) {
+  const p = String(email).split("@");
+  if (p.length !== 2) return email;
+  const u = p[0];
+  return (u.length <= 2 ? u[0] + "*" : u.slice(0,2) + "***" + u.slice(-1)) + "@" + p[1];
+}
 function jsonp(obj, callback) {
   const safe = /^[a-zA-Z0-9_.$]+$/.test(callback) ? callback : "aquaeliteCallback";
   return ContentService.createTextOutput(safe + "(" + JSON.stringify(obj) + ");")
