@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Aquaelite//Webinar NM FIRE//ES
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:aquaelite-nmfire-20261127@aquaelite.pe
+DTSTAMP:20261104T173000Z
+DTSTART:20261128T000000Z
+DTEND:20261128T023000Z
+SUMMARY:Webinar Aquaelite - Bombas contra incendio UL/FM NM FIRE
+DESCRIPTION:Webinar gratuito Aquaelite. Google Meet: https://meet.google.com/qns-bbzp-eyx
+LOCATION:Google Meet
+URL:https://meet.google.com/qns-bbzp-eyx
+END:VEVENT
+END:VCALENDAR
