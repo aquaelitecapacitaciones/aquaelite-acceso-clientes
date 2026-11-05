@@ -16,7 +16,7 @@
 <body>
 <main class="wrap">
   <section id="requestCard" class="card auth">
-    <div class="center"><div class="logo"><img src="logo-aquaelite.png" alt="Aquaelite"></div><span class="badge">🔐 ACCESO A HERRAMIENTAS DIGITALES</span><h1>Portal de Clientes</h1><p class="lead">Ingresa el correo registrado en el formulario Aquaelite. Recibirás un código personal de 6 dígitos.</p></div>
+    <div class="center"><div class="logo"><img src="logo-aquaelite.png" alt="Aquaelite"></div><span class="badge">🔐 ACCESO A HERRAMIENTAS DIGITALES</span><h1>Portal de Clientes</h1><p style="margin:8px 0;padding:9px;border-radius:7px;background:#fff3cd;color:#684900;font-weight:700">ENTORNO DE PRUEBAS · No registrar clientes reales</p><p class="lead">Ingresa el correo registrado en el formulario Aquaelite. Recibirás un código personal de 6 dígitos.</p></div>
     <label for="email">Correo electrónico</label><input id="email" type="email" autocomplete="email" placeholder="correo@ejemplo.com">
     <button id="sendBtn">ENVIAR CÓDIGO DE ACCESO</button><button id="showRegisterBtn" class="secondary" type="button">REGISTRARME GRATIS</button><div id="requestMessage" class="message"></div><div class="footer">El código vence en 15 minutos.</div>
   </section>
@@ -40,7 +40,7 @@
 
   <section id="panelCard" class="hidden">
     <div class="card">
-      <div class="topbar"><div class="topbrand"><img src="logo-aquaelite.png" alt="Aquaelite"><div><span class="badge">✓ REGISTRO VERIFICADO</span><h1 id="welcome">Mis herramientas</h1><div id="userEmail" class="meta"></div></div></div><button id="logoutBtn" class="logout">CERRAR SESIÓN</button></div>
+      <div class="topbar"><div class="topbrand"><img src="logo-aquaelite.png" alt="Aquaelite"><div><span class="badge">✓ REGISTRO VERIFICADO</span><h1 id="welcome">Mis herramientas</h1><p style="font-size:12px;color:#b45309;font-weight:700">PORTAL DE PRUEBAS · Datos aislados</p><div id="userEmail" class="meta"></div></div></div><button id="logoutBtn" class="logout">CERRAR SESIÓN</button></div>
       <div id="groups" class="groups">
         <section id="starterGroup" class="group hidden"><div class="group-head"><span class="group-mark">💧</span><div><h2>Diagnóstico gratuito de agua</h2><div class="group-sub">Herramientas para revisar tu instalación</div></div></div><div class="tools"><div class="tool-subtitle">🔎 Revisa tú mismo tu instalación<small>Primer diagnóstico y revisión orientativa, antes de solicitar un servicio especializado.</small></div><a class="tool" href="evento-10-09/aquacheck/" target="_blank" rel="noopener"><b><span class="tool-icon">📊</span><span class="tool-copy"><strong>Diagnóstico gratuito para todos · AC-NEG-001</strong><small class="desc">Revisa tu consumo, posibles fugas y prepara un expediente orientativo.</small></span></b><span>ABRIR HERRAMIENTA</span></a>
           <a class="tool" href="AF-01_Protocolo_Aquaelite_Diagnostico_Localizacion_Fugas_V1.pdf" target="_blank" rel="noopener"><b><span class="tool-icon">📄</span><span class="tool-copy"><strong>AF-01 · Protocolo profesional</strong><small class="desc">Guía para el levantamiento de información en campo.</small></span></b><span>ABRIR PDF</span></a>
@@ -64,7 +64,7 @@
   </section>
 </main>
 <script>
-const API='https://script.google.com/macros/s/AKfycbxQJ5cUTRR_6MAlIvTR4mgCfcI-wK3IaEm3_4EMXrY2hKCzohBkHoynrWxBMlp3lpIT/exec';
+const API='https://script.google.com/macros/s/AKfycbypMXe6JUSnzh9fbOWJlFtJOX-rWJnCKmXCBevcrSMxwLHQF2E6mElPQP7IeWES5r1-zg/exec';
 const KEYS={email:'aq_portal_email',token:'aq_portal_token',expires:'aq_portal_expires',name:'aq_portal_name'};
 let currentEmail='';const $=id=>document.getElementById(id);const screens=[$('requestCard'),$('registerCard'),$('verifyCard'),$('panelCard')];
 function showOnly(screen){screens.forEach(x=>x.classList.add('hidden'));screen.classList.remove('hidden')}
