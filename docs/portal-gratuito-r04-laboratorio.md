@@ -23,3 +23,19 @@
 
 ## Política de seguridad
 No poner códigos, tokens, correos ni contraseñas en el repositorio. No sustituir el backend comercial de producción por R04 laboratorio. No editar el portal en `main` antes de aprobar las pruebas.
+
+## Auditoría de rutas reales — 15/11/2026
+- **AC-NEG-001** existe en `evento-10-09/aquacheck/index.html`. Ruta relativa desde la raíz del Portal: `evento-10-09/aquacheck/`.
+- **AF-01** existe como `AF-01_Protocolo_Aquaelite_Diagnostico_Localizacion_Fugas_V1.pdf` en la raíz del Portal. Se conservó también el acceso comercial preexistente al PDF.
+- **AF-02** sigue en el grupo de servicios con permiso comercial `FUGAS`. Su presencia visual no concede acceso público.
+- La nueva portada del Portal indica «registro gratuito próximamente» con botón deshabilitado: aún no hay backend R04 público validado.
+- La sección de autodiagnóstico está visible dentro del panel para sesiones comerciales existentes; el ingreso de perfiles `FREE` no está conectado todavía.
+
+## Riesgo de permisos: imprescindible antes de producción
+Los archivos estáticos y las aplicaciones GitHub Pages con URL pública no pueden protegerse realmente solo mediante un botón oculto o un estado de sesión en JavaScript. Antes de comercializar herramientas profesionales restringidas debe evaluarse la comprobación **en el servidor / entrega controlada del recurso**. Para AC-NEG-001 y AF-01, hoy públicos, es válido tratarlos como contenido gratuito, sin afirmar exclusividad de acceso.
+
+## Criterios de aceptación pendientes
+- Registro gratuito real, OTP y sesión desde un backend R04 apto para público y revisado, no el laboratorio restringido al administrador.
+- Autorización expresa para escribir en CRM Maestro original, con deduplicación y trazabilidad.
+- Pruebas de regresión de clientes con `PRO`, `FUGAS`, vencidos y renovados (6/12 meses).
+- Validación de enlaces, carga, responsive y accesibilidad antes de fusionar.
