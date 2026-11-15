@@ -39,3 +39,10 @@ Los archivos estáticos y las aplicaciones GitHub Pages con URL pública no pued
 - Autorización expresa para escribir en CRM Maestro original, con deduplicación y trazabilidad.
 - Pruebas de regresión de clientes con `PRO`, `FUGAS`, vencidos y renovados (6/12 meses).
 - Validación de enlaces, carga, responsive y accesibilidad antes de fusionar.
+
+## R17 localizada y conservada — 15/11/2026
+- Historial de la rama `revision-portal-2026-11-02`: commit `0e5dc9b40ff8763272ae5dd1cf699918f60495b7`, «Ajustar paginación del Formato 2 en candidato AC-NEG-001 R17 sin publicar».
+- Se copió el **mismo blob Git** `f952f2bbea5058b79a1c8fb4fe2d438cd03b53fc` a `evento-10-09/aquacheck/index.html` de esta rama de laboratorio; no se reescribió el contenido de AC-NEG-001.
+- `main` conserva la versión previamente publicada. La R17 sigue siendo **candidata**: no hay constancia de aprobación final normativa ni de pruebas visuales Edge/Safari/móvil.
+- En el Portal de laboratorio se identifica como «R17 candidata». No confundir el enlace de producción con la revisión preparada en esta rama.
+- Validación pendiente: cálculo de consumos, pruebas hidráulicas opcionales, resultados, exportación PDF de cuatro páginas, paginación y firmas del Formato N.º 2.
