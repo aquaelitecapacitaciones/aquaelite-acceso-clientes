@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es"><head><base target="_top"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aquaelite | Acceso gratuito</title>
+<style>
+:root{font-family:Arial,sans-serif;color:#e9f5fc;background:#061f34}*{box-sizing:border-box}body{margin:0;padding:20px}.shell{max-width:570px;margin:36px auto;padding:25px;border:1px solid #1f5575;border-radius:18px;background:#092b46}h1{font-size:25px;margin:0 0 12px}p{line-height:1.5;color:#c0dbe9}label{display:block;margin-top:14px;font-size:14px}input,select,button{display:block;width:100%;margin-top:6px;padding:12px;border:1px solid #52748a;border-radius:8px;font:inherit}input,select{background:#fff;color:#132e45}input[type=checkbox]{width:auto;display:inline-block;margin-right:8px}button{cursor:pointer;background:#0f81b7;color:white;border:0;font-weight:bold;margin-top:17px}button.secondary{background:#194961}button:disabled{opacity:.55;cursor:wait}.hidden{display:none}#status{min-height:28px;padding:12px 0}small{color:#afd3e6}.consent{display:flex;align-items:flex-start}.consent span{flex:1}footer{margin-top:20px;font-size:12px;color:#b0cede}
+</style></head><body>
+<div class="shell"><h1>AQUAELITE® | Acceso gratuito</h1>
+<p>Revisa tu consumo de agua y accede a diagnósticos orientativos. El acceso comercial es independiente.</p>
+<section id="register">
+<h2>Registro</h2>
+<label>Nombre y apellidos<input id="name" maxlength="100" autocomplete="name"></label>
+<label>Correo<input id="email" type="email" maxlength="254" autocomplete="email"></label>
+<label>WhatsApp<input id="phone" type="tel" maxlength="20" autocomplete="tel"></label>
+<label>¿Cómo usarás las herramientas?<select id="profile"><option value="persona">Mi hogar o negocio</option><option value="servicios">Servicios y mantenimiento</option><option value="empresa">Empresa</option></select></label>
+<label class="consent"><input id="consent" type="checkbox"><span>Autorizo el tratamiento de estos datos para administrar mi registro y acceso. No autorizo comunicaciones comerciales mediante esta casilla.</span></label>
+<button id="regBtn" onclick="registerFree()">REGISTRARME</button>
+</section>
+<section id="auth">
+<h2>Verificar mi correo</h2>
+<p>Si ya te registraste, ingresa tu correo y solicita un código de seis dígitos.</p>
+<button id="sendBtn" onclick="requestCode()">ENVIAR CÓDIGO</button>
+<label>Código recibido<input id="pin" inputmode="numeric" maxlength="6" autocomplete="one-time-code"></label>
+<button id="verifyBtn" onclick="verifyCode()">VERIFICAR Y ACCEDER</button>
+</section>
+<section id="tools" class="hidden"><h2>Mis diagnósticos</h2><p id="greeting"></p>
+<a href="https://aquaelitecapacitaciones.github.io/aquaelite-acceso-clientes/evento-10-09/aquacheck/" target="_blank" rel="noopener" style="color:#8de6ff;display:block;margin-bottom:13px">AC-NEG-001 · AquaCheck Negocios (versión pública actual)</a>
+<a href="https://aquaelitecapacitaciones.github.io/aquaelite-acceso-clientes/AF-01_Protocolo_Aquaelite_Diagnostico_Localizacion_Fugas_V1.pdf" target="_blank" rel="noopener" style="color:#8de6ff;display:block;margin-bottom:13px">AF-01 · Diagnóstico inicial de fugas (PDF)</a>
+<small>Estas herramientas ya tienen rutas públicas. Esta pantalla no protege sus URL; los productos de pago no están incluidos.</small>
+<button class="secondary" onclick="logout()">CERRAR SESIÓN</button></section>
+<div id="status" role="status" aria-live="polite"></div>
+<footer>Entorno candidato sin publicar. El código vence en 15 minutos; la sesión gratuita en 48 horas.</footer></div>
+<script>
+let accountEmail='',sessionToken='';
+const el=id=>document.getElementById(id);
+function status(t){el('status').textContent=t}
+function busy(id,on){el(id).disabled=on}
+function rpc(method,args,button,success){
+ busy(button,true);status('Procesando...');
+ const call=google.script.run.withSuccessHandler(r=>{
+   busy(button,false);status(r?.message||r?.mensaje||(r?.ok?'Operación realizada':'No se pudo completar'));
+   if(r?.ok)success(r);
+ }).withFailureHandler(err=>{busy(button,false);status('No pudimos conectar con el servicio.');console.error(err)});
+ call[method](...args);
+}
+function mail(){return el('email').value.trim().toLowerCase()}
+function registerFree(){
+ accountEmail=mail();
+ if(!accountEmail||!el('consent').checked){status('Ingresa tu correo y acepta el tratamiento de datos.');return}
+ rpc('freeRegister',[{correo:accountEmail,nombre:el('name').value,whatsapp:el('phone').value,perfil:el('profile').value,consentimiento:'SI'}],'regBtn',()=>status('Registro recibido. Ahora solicita tu código.'));
+}
+function requestCode(){accountEmail=mail();if(!accountEmail){status('Ingresa tu correo.');return}rpc('freeRequestCode',[accountEmail],'sendBtn',()=>{})}
+function verifyCode(){
+ accountEmail=mail();const code=el('pin').value.trim();
+ if(!/^\d{6}$/.test(code)){status('Ingresa los seis dígitos.');return}
+ rpc('freeVerifyCode',[accountEmail,code],'verifyBtn',r=>{
+  if(!Array.isArray(r.permissions)||!r.permissions.includes('FREE')){status('Sin permiso FREE.');return}
+  sessionToken=r.token;el('greeting').textContent=r.nombre?'Hola, '+r.nombre:'Acceso verificado';
+  el('register').classList.add('hidden');el('auth').classList.add('hidden');el('tools').classList.remove('hidden');
+ });
+}
+function logout(){sessionToken='';el('tools').classList.add('hidden');el('register').classList.remove('hidden');el('auth').classList.remove('hidden');status('Sesión cerrada en este navegador.')}
+</script></body></html>
