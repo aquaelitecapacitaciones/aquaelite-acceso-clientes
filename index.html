@@ -15,9 +15,9 @@
 <body>
 <main class="wrap">
   <section id="requestCard" class="card auth">
-    <div class="center"><div class="logo"><img src="logo-aquaelite.png" alt="Aquaelite"></div><span class="badge">🔐 ACCESO A HERRAMIENTAS DIGITALES</span><h1>Portal de Clientes</h1><p class="lead">Ingresa el correo con el que activaste tu compra. Recibirás un código personal de 6 dígitos.</p></div>
+    <div class="center"><div class="logo"><img src="logo-aquaelite.png" alt="Aquaelite"></div><span class="badge">🔐 ACCESO A HERRAMIENTAS DIGITALES</span><h1>Portal Digital Aquaelite</h1><p class="lead" id="loginIntro">Clientes con acceso comercial: ingresa tu correo para recibir un código de 6 dígitos.</p></div>
     <label for="email">Correo electrónico</label><input id="email" type="email" autocomplete="email" placeholder="correo@ejemplo.com">
-    <button id="sendBtn">ENVIAR CÓDIGO DE ACCESO</button><div id="requestMessage" class="message"></div><div class="footer">El código vence en 15 minutos.</div><div class="free-entry"><h2>¿Primera vez en Aquaelite?</h2><p>Pronto podrás registrarte para utilizar nuestros diagnósticos gratuitos. El acceso comercial existente continúa funcionando normalmente.</p><button id="showRegisterBtn" type="button">CONOCER EL REGISTRO GRATUITO</button></div>
+    <button id="sendBtn">ENVIAR CÓDIGO DE ACCESO</button><button id="freeLoginBtn" type="button" class="secondary">YA TENGO ACCESO GRATUITO</button><button id="paidLoginBtn" type="button" class="secondary hidden">VOLVER A ACCESO COMERCIAL</button><div id="requestMessage" class="message"></div><div class="footer">El código vence en 15 minutos.</div><div class="free-entry"><h2>¿Primera vez en Aquaelite?</h2><p>Pronto podrás registrarte para utilizar nuestros diagnósticos gratuitos. El acceso comercial existente continúa funcionando normalmente.</p><button id="showRegisterBtn" type="button">REGISTRARME GRATIS</button></div>
   </section>
 
   <section id="registerCard" class="card auth hidden" aria-labelledby="registerHeading">
@@ -79,21 +79,88 @@
 <script>
 const API='https://script.google.com/macros/s/AKfycbxQJ5cUTRR_6MAlIvTR4mgCfcI-wK3IaEm3_4EMXrY2hKCzohBkHoynrWxBMlp3lpIT/exec';
 const KEYS={email:'aq_portal_email',token:'aq_portal_token',expires:'aq_portal_expires',name:'aq_portal_name'};
+/* Solo configurar el endpoint R04 público después de auditarlo; no introducir secretos aquí. */
+const FREE_CONFIG={endpoint:'',enabled:false,actions:{register:'register_free',request:'request_code',verify:'verify_code',check:'check_session'}};
+const FREE_KEYS={email:'aq_free_email',token:'aq_free_token',expires:'aq_free_expires',name:'aq_free_name'};
+let authMode='PAID';
 let currentEmail='';const $=id=>document.getElementById(id);const screens=[$('requestCard'),$('registerCard'),$('verifyCard'),$('panelCard')];
 function showOnly(screen){screens.forEach(x=>x.classList.add('hidden'));screen.classList.remove('hidden')}
 function message(el,text,type){el.textContent=text;el.className='message '+type}
 function clearMessage(el){el.textContent='';el.className='message'}
 function validEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}
-function api(action,params={}){return new Promise((resolve,reject)=>{const cb='aq_'+Date.now()+'_'+Math.floor(Math.random()*1e6),s=document.createElement('script');let done=false;const finish=()=>{if(done)return;done=true;delete window[cb];s.remove()};const timer=setTimeout(()=>{finish();reject(new Error('timeout'))},18000);window[cb]=r=>{clearTimeout(timer);finish();resolve(r)};s.src=API+'?'+new URLSearchParams({action,callback:cb,...params});s.onerror=()=>{clearTimeout(timer);finish();reject(new Error('network'))};document.body.appendChild(s)})}
-async function requestCode(){clearMessage($('requestMessage'));const email=$('email').value.trim().toLowerCase();if(!validEmail(email)){message($('requestMessage'),'Ingresa un correo válido.','error');return}currentEmail=email;$('sendBtn').disabled=true;$('sendBtn').textContent='ENVIANDO...';try{const r=await api('request_code',{correo:email});if(r?.ok){$('maskedEmail').textContent=r.maskedEmail||email;showOnly($('verifyCard'))}else message($('requestMessage'),r?.message||'No pudimos enviar el código.','error')}catch{message($('requestMessage'),'No pudimos conectar con el sistema. Intenta nuevamente.','error')}finally{$('sendBtn').disabled=false;$('sendBtn').textContent='ENVIAR CÓDIGO DE ACCESO'}}
-async function verifyCode(){clearMessage($('verifyMessage'));const code=$('code').value.trim();if(!/^\d{6}$/.test(code)){message($('verifyMessage'),'Ingresa los 6 dígitos.','error');return}$('verifyBtn').disabled=true;try{const r=await api('verify_code',{correo:currentEmail,codigo:code});if(r?.ok){saveSession(r);renderPanel(r)}else message($('verifyMessage'),r?.message||'No pudimos validar el código.','error')}catch{message($('verifyMessage'),'No pudimos validar el acceso. Intenta nuevamente.','error')}finally{$('verifyBtn').disabled=false}}
-async function resend(){const r=await api('request_code',{correo:currentEmail});message($('verifyMessage'),r?.ok?'Te enviamos un código nuevo.':r?.message||'No pudimos reenviarlo.',r?.ok?'success':'error')}
+function api(action,params={},endpoint=API){return new Promise((resolve,reject)=>{const cb='aq_'+Date.now()+'_'+Math.floor(Math.random()*1e6),s=document.createElement('script');let done=false;const finish=()=>{if(done)return;done=true;delete window[cb];s.remove()};const timer=setTimeout(()=>{finish();reject(new Error('timeout'))},18000);window[cb]=r=>{clearTimeout(timer);finish();resolve(r)};s.src=endpoint+'?'+new URLSearchParams({action,callback:cb,...params});s.onerror=()=>{clearTimeout(timer);finish();reject(new Error('network'))};document.body.appendChild(s)})}
+function freeEnabled(){return FREE_CONFIG.enabled&&FREE_CONFIG.endpoint.startsWith('https://script.google.com/macros/s/')&&FREE_CONFIG.endpoint.endsWith('/exec')}
+function setAuthMode(mode){
+ authMode=mode==='FREE'?'FREE':'PAID';
+ $('loginIntro').textContent=authMode==='FREE'?'Acceso gratuito: solicita un código para ingresar a tus diagnósticos.':'Clientes con acceso comercial: ingresa tu correo para recibir un código de 6 dígitos.';
+ $('freeLoginBtn').classList.toggle('hidden',authMode==='FREE');
+ $('paidLoginBtn').classList.toggle('hidden',authMode==='PAID');
+ clearMessage($('requestMessage'));
+}
+function modeApi(action,params={}){
+ if(authMode==='FREE'){
+  if(!freeEnabled())return Promise.resolve({ok:false,message:'El acceso gratuito está en preparación. Todavía no es posible solicitar códigos.'});
+  return api(FREE_CONFIG.actions[action],params,FREE_CONFIG.endpoint);
+ }
+ return api(action,params);
+}
+async function registerFree(event){
+ event.preventDefault();clearMessage($('freeRegisterMessage'));
+ if(!freeEnabled()){message($('freeRegisterMessage'),'El registro aún no está habilitado. No se enviaron tus datos.','info');return}
+ const nombre=$('freeName').value.trim(),correo=$('freeEmail').value.trim().toLowerCase(),whatsapp=$('freePhone').value.trim(),perfil=$('freeProfile').value;
+ if(nombre.length<5||!validEmail(correo)||whatsapp.replace(/[^0-9]/g,'').length<9||!$('freeConsent').checked){message($('freeRegisterMessage'),'Verifica tu nombre, correo, WhatsApp y consentimiento.','error');return}
+ const button=$('freeSubmitBtn');button.disabled=true;
+ try{
+  const r=await api(FREE_CONFIG.actions.register,{nombre,correo,whatsapp,perfil,consentimiento:'si'},FREE_CONFIG.endpoint);
+  if(!r?.ok){message($('freeRegisterMessage'),r?.message||'No fue posible registrar tus datos.','error');return}
+  setAuthMode('FREE');currentEmail=correo;$('email').value=correo;$('maskedEmail').textContent=r.maskedEmail||correo;$('code').value='';
+  if(r.codigoEnviado===true||r.codeSent===true)showOnly($('verifyCard'));
+  else{showOnly($('requestCard'));message($('requestMessage'),'Registro recibido. Solicita tu código para verificar el correo.','success')}
+ }catch{message($('freeRegisterMessage'),'No fue posible conectar con el registro gratuito.','error')}
+ finally{button.disabled=false}
+}
+async function requestCode(){clearMessage($('requestMessage'));const email=$('email').value.trim().toLowerCase();if(!validEmail(email)){message($('requestMessage'),'Ingresa un correo válido.','error');return}currentEmail=email;$('sendBtn').disabled=true;$('sendBtn').textContent='ENVIANDO...';try{const r=await modeApi('request_code',{correo:email});if(r?.ok){$('maskedEmail').textContent=r.maskedEmail||email;showOnly($('verifyCard'))}else message($('requestMessage'),r?.message||'No pudimos enviar el código.','error')}catch{message($('requestMessage'),'No pudimos conectar con el sistema. Intenta nuevamente.','error')}finally{$('sendBtn').disabled=false;$('sendBtn').textContent='ENVIAR CÓDIGO DE ACCESO'}}
+async function verifyCode(){clearMessage($('verifyMessage'));const code=$('code').value.trim();if(!/^\d{6}$/.test(code)){message($('verifyMessage'),'Ingresa los 6 dígitos.','error');return}$('verifyBtn').disabled=true;try{const r=await modeApi('verify_code',{correo:currentEmail,codigo:code});if(r?.ok){if(authMode==='FREE'){saveFreeSession(r);renderFreePanel(r)}else{saveSession(r);renderPanel(r)}}else message($('verifyMessage'),r?.message||'No pudimos validar el código.','error')}catch{message($('verifyMessage'),'No pudimos validar el acceso. Intenta nuevamente.','error')}finally{$('verifyBtn').disabled=false}}
+async function resend(){const r=await modeApi('request_code',{correo:currentEmail});message($('verifyMessage'),r?.ok?'Te enviamos un código nuevo.':r?.message||'No pudimos reenviarlo.',r?.ok?'success':'error')}
 function saveSession(r){localStorage.setItem(KEYS.email,r.correo);localStorage.setItem(KEYS.token,r.token);localStorage.setItem(KEYS.expires,String(r.expiresAt));localStorage.setItem(KEYS.name,r.nombre||'')}
 function clearSession(){Object.values(KEYS).forEach(k=>localStorage.removeItem(k))}
+function clearFreeSession(){Object.values(FREE_KEYS).forEach(k=>localStorage.removeItem(k))}
+function saveFreeSession(r){
+ if(!r.correo||!r.token||!Number.isFinite(Number(r.expiresAt))||Number(r.expiresAt)<=Date.now())throw Error('Sesión gratuita incompleta');
+ localStorage.setItem(FREE_KEYS.email,r.correo);localStorage.setItem(FREE_KEYS.token,r.token);
+ localStorage.setItem(FREE_KEYS.expires,String(r.expiresAt));localStorage.setItem(FREE_KEYS.name,r.nombre||'');
+}
+function renderFreePanel(r){
+ const perms=Array.isArray(r.permissions)?r.permissions:[];
+ if(!perms.includes('FREE')){clearFreeSession();showOnly($('requestCard'));message($('requestMessage'),'El servidor no confirmó permisos gratuitos. Comunícate con Aquaelite.','error');return}
+ currentEmail=r.correo||currentEmail;$('userEmail').textContent=currentEmail;
+ $('welcome').textContent=r.nombre?'Hola, '+r.nombre:'Mis diagnósticos gratuitos';
+ $('freeSelfGroup').classList.remove('hidden');
+ ['proGroup','fugasGroup','servicesIntro','npshAllGroup'].forEach(id=>$(id).classList.add('hidden'));
+ showOnly($('panelCard'));
+}
 function formatDate(ms){return ms?new Intl.DateTimeFormat('es-PE',{day:'2-digit',month:'long',year:'numeric'}).format(new Date(ms)):''}
 function renderPanel(r){$('freeSelfGroup').classList.remove('hidden');$('userEmail').textContent=r.correo||currentEmail;$('welcome').textContent=r.nombre?'Hola, '+r.nombre:'Mis herramientas';const perms=r.permissions||[],access=r.access||[];['PRO','FUGAS'].forEach(p=>{const group=$(p==='PRO'?'proGroup':'fugasGroup'),tag=$(p==='PRO'?'proExpiry':'fugasExpiry');if(perms.includes(p)){group.classList.remove('hidden');const item=access.find(x=>x.permission===p);tag.textContent=item?.expiresAt?'Vigente hasta '+formatDate(item.expiresAt):'Acceso vigente'}else group.classList.add('hidden')});$('servicesIntro').classList.toggle('hidden',!perms.includes('FUGAS'));$('npshAllGroup').classList.toggle('hidden',perms.includes('PRO'));showOnly($('panelCard'))}
-async function checkStored(){const email=localStorage.getItem(KEYS.email),token=localStorage.getItem(KEYS.token),expires=Number(localStorage.getItem(KEYS.expires)||0);if(!email||!token||Date.now()>expires){clearSession();showOnly($('requestCard'));return}try{const r=await api('check_session',{correo:email,token});if(r?.ok){currentEmail=email;renderPanel(r)}else{clearSession();showOnly($('requestCard'))}}catch{clearSession();showOnly($('requestCard'))}}
-$('showRegisterBtn').onclick=()=>showOnly($('registerCard'));$('freeBackBtn').onclick=()=>showOnly($('requestCard'));$('freeRegisterForm').onsubmit=event=>{event.preventDefault();message($('freeRegisterMessage'),'El registro gratuito aún no está conectado. No se enviaron datos.','info')};$('sendBtn').onclick=requestCode;$('verifyBtn').onclick=verifyCode;$('resendBtn').onclick=resend;$('changeEmailBtn').onclick=()=>{currentEmail='';$('code').value='';showOnly($('requestCard'))};$('logoutBtn').onclick=()=>{clearSession();currentEmail='';showOnly($('requestCard'))};$('email').addEventListener('keydown',e=>{if(e.key==='Enter')requestCode()});$('code').addEventListener('keydown',e=>{if(e.key==='Enter')verifyCode()});checkStored();
+async function checkFreeStored(){
+ if(!freeEnabled())return false;
+ const email=localStorage.getItem(FREE_KEYS.email),token=localStorage.getItem(FREE_KEYS.token),expires=Number(localStorage.getItem(FREE_KEYS.expires)||0);
+ if(!email||!token||Date.now()>=expires){clearFreeSession();return false}
+ try{
+  const r=await api(FREE_CONFIG.actions.check,{correo:email,token},FREE_CONFIG.endpoint);
+  if(r?.ok&&Array.isArray(r.permissions)&&r.permissions.includes('FREE')){setAuthMode('FREE');currentEmail=email;renderFreePanel(r);return true}
+  clearFreeSession();return false;
+ }catch{return false}
+}
+async function checkStored(){const email=localStorage.getItem(KEYS.email),token=localStorage.getItem(KEYS.token),expires=Number(localStorage.getItem(KEYS.expires)||0);if(!email||!token||Date.now()>expires){clearSession();if(!await checkFreeStored())showOnly($('requestCard'));return}try{const r=await api('check_session',{correo:email,token});if(r?.ok){currentEmail=email;renderPanel(r)}else{clearSession();if(!await checkFreeStored())showOnly($('requestCard'))}}catch{clearSession();if(!await checkFreeStored())showOnly($('requestCard'))}}
+$('showRegisterBtn').onclick=()=>showOnly($('registerCard'));
+$('freeBackBtn').onclick=()=>showOnly($('requestCard'));
+$('freeRegisterForm').onsubmit=registerFree;
+$('freeLoginBtn').onclick=()=>{setAuthMode('FREE');if(!freeEnabled())message($('requestMessage'),'El acceso gratuito está en preparación.','info')};
+$('paidLoginBtn').onclick=()=>setAuthMode('PAID');
+$('freeSubmitBtn').disabled=!freeEnabled();
+$('freeSubmitBtn').textContent=freeEnabled()?'REGISTRARME Y VERIFICAR CORREO':'REGISTRO GRATUITO PENDIENTE DE ACTIVACIÓN';
+$('freeRegistrationStatus').textContent=freeEnabled()?'Verificaremos el correo para habilitar los diagnósticos gratuitos.':'El registro gratuito está preparado, pendiente de validación del servidor R04.';
+$('sendBtn').onclick=requestCode;$('verifyBtn').onclick=verifyCode;$('resendBtn').onclick=resend;$('changeEmailBtn').onclick=()=>{currentEmail='';$('code').value='';showOnly($('requestCard'))};$('logoutBtn').onclick=()=>{clearSession();clearFreeSession();currentEmail='';setAuthMode('PAID');showOnly($('requestCard'))};$('email').addEventListener('keydown',e=>{if(e.key==='Enter')requestCode()});$('code').addEventListener('keydown',e=>{if(e.key==='Enter')verifyCode()});checkStored();
 </script>
 </body>
 </html>
