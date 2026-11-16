@@ -95,3 +95,45 @@ Se añadió a la rama de laboratorio una pantalla de registro con nombre, correo
 **Verificaciones automáticas:** JavaScript de index.html compila; no hay IDs duplicados ni referencias DOM ausentes; `main/index.html` conserva su SHA de producción; el formulario no tiene envío activo.
 
 **Pendiente clave:** implementar una API R04 pública con validación de correo, límites, sesión, permiso FREE, aislamiento de PRO/FUGAS, consentimiento y CRM Maestro; probar antes de activar botón. No copiar la lógica de la rama previa `revision-portal-2026-11-02` que mostraba todo como gratuito y no respetaba las autorizaciones comerciales.
+
+## Unificación de interfaz y sesiones — 15/11/2026
+
+Se incorporó en `index.html` de laboratorio una sola experiencia visual, manteniendo el flujo comercial existente y añadiendo un flujo gratuito técnicamente separado:
+
+- Login comercial original conserva el endpoint `API`, acciones `request_code`, `verify_code`, `check_session` y llaves de sesión comerciales `aq_portal_*`.
+- Login gratuito y formulario de alta comparten interfaz, pero utilizan `FREE_CONFIG`, sesiones independientes `aq_free_*` y backend R04 separado.
+- El panel gratuito se abre **solo si el servidor devuelve `ok:true` y `permissions` incluye `FREE`**; aun entonces oculta explícitamente `proGroup`, `fugasGroup`, `servicesIntro` y `npshAllGroup`.
+- La pantalla comercial conserva sus permisos `PRO` y `FUGAS` y las etiquetas de vigencia como estaban.
+- `FREE_CONFIG.endpoint` se deja vacío y `enabled:false` hasta validar y publicar un endpoint R04 autorizado para público. No se utiliza el laboratorio restringido al administrador en un Portal público.
+- El botón de registro gratuito sigue deshabilitado por la misma condición, pero el flujo de funciones y validaciones está preparado.
+- El consentimiento de alta refiere exclusivamente a gestión del acceso; las comunicaciones comerciales exigirán consentimiento independiente, nunca inferido de este checkbox.
+
+### Contrato mínimo de integración R04 pendiente de validar con Apps Script
+
+Todas las respuestas JSONP deben estar estrictamente saneadas y vinculadas al correo autenticado.
+
+| Acción | Parámetros | Respuesta requerida |
+|---|---|---|
+| `register_free` | nombre, correo, whatsapp, perfil, consentimiento | `ok`, `maskedEmail` opcional, `codeSent` o `codigoEnviado` si se remitió código |
+| `request_code` | correo | `ok`, `maskedEmail` |
+| `verify_code` | correo, codigo | `ok`, `correo`, `nombre`, `token`, `expiresAt` (epoch **milisegundos**), `permissions:['FREE']` |
+| `check_session` | correo, token | `ok`, `correo`, `nombre`, `permissions:['FREE']` |
+
+Si el backend devuelve otros nombres de campos o acciones, ajustar el adaptador después de observar respuestas auténticas en laboratorio; **no cambiar el backend probado por conjetura**.
+
+### Controles antes de activar
+
+1. Verificar que el backend R04 de acceso público mantenga cuota de correos por hora/día, espera entre códigos, límite de intentos, caducidad, hash de códigos/tokens, autorización por correo y consentimiento.
+2. Mantener protección de recursos comerciales del lado del servidor; ocultar tarjetas o rutas públicas no constituye autorización.
+3. Separar almacenamiento y trazabilidad gratuita de las vigencias de licencias comerciales.
+4. Probar FREE, PRO, FUGAS, acceso vencido, renovación 6/12 meses, un usuario de prueba y un usuario externo, incluyendo móvil.
+5. Integrar con CRM Maestro original únicamente mediante escritura aprobada, idempotente y auditada.
+6. Sólo entonces completar FREE_CONFIG y habilitar el botón con aprobación de publicación.
+
+### Validación de código de esta unificación
+- Compila el JavaScript de `index.html`.
+- No hay identificadores HTML duplicados ni referencias DOM inexistentes.
+- Endpoint comercial conservado textualmente.
+- Sesiones comerciales y gratuitas usan conjuntos independientes de claves.
+- Pantalla gratuita exige permiso del servidor y oculta grupos profesionales.
+- **No se ha realizado una prueba real de correo R04 público ni del CRM original.**
