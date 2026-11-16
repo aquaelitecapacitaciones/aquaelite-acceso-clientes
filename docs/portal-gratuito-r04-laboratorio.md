@@ -137,3 +137,28 @@ Si el backend devuelve otros nombres de campos o acciones, ajustar el adaptador 
 - Sesiones comerciales y gratuitas usan conjuntos independientes de claves.
 - Pantalla gratuita exige permiso del servidor y oculta grupos profesionales.
 - **No se ha realizado una prueba real de correo R04 público ni del CRM original.**
+
+## Auditoría del Código.gs R04 Rev2 suministrado — 15/11/2026
+
+**Fuente:** Código.gs, 151 líneas, entregado por la usuaria. Archivo de Apps Script del laboratorio aislado. No confundir con una API pública ya publicada.
+
+### Hechos verificados
+- `R04` contiene un spreadsheet aislado, correo administrador, OTP por 15 minutos, sesión por 48 horas, reenvío tras 60 segundos, cinco intentos, cinco correos por hora, doce por día.
+- `r04Permitido_(email)` únicamente autoriza `R04.admin`; `r04SolicitarCodigo()` envía el mensaje exclusivamente a `R04.admin`.
+- `doGet()` renderiza una página HTML que llama a funciones Apps Script mediante `google.script.run`. **No** interpreta parámetros de acción externos ni ofrece contrato `register_free/request_code/verify_code/check_session` para el Portal GitHub.
+- `r04Registro` espera `consentimiento:'SI'`, mientras que el Portal unificado candidato envía `'si'` actualmente.
+- `r04VerificarCodigo` devuelve `token` y `vence` como ISO; no devuelve `correo`, `nombre`, `expiresAt` epoch ms ni `permissions:['FREE']`.
+- `r04ComprobarSesion` devuelve estado/fecha sin permiso `FREE`.
+- No hay vínculo con CRM Maestro original en este archivo; otro módulo previo está dedicado a pruebas contra COPIA y no debe tomarse como integración productiva.
+
+### Implicaciones y diseño de integración
+1. **No** exponer el laboratorio administrador mediante modificación rápida de `r04Permitido_`; crear sistema público separado, con base de datos y secretos separados.
+2. Evaluar riesgos de JSONP y de tokens en URL: la API comercial existente usa JSONP pero no se debe reproducir ciegamente para una nueva API con datos personales. Preferir un backend con CORS restringido y solicitudes POST HTTPS donde sea posible; si Apps Script impone restricciones, revisar arquitectura alternativa antes de publicar.
+3. El backend público debe validar y normalizar consentimiento, perfil, correo, teléfono, estado de verificación, cuotas globales e individuales, intentos, caducidades y vincular tokens al usuario.
+4. Exigir autorización del lado servidor para recursos profesionales: ocultar botones no protege una URL pública.
+5. Alinear contrato real con front-end (correo, nombre, token, expiresAt en ms, permissions FREE) y prohibir que `permissions` sea recibido del cliente como autoridad.
+6. Verificar consentimiento y política de privacidad con tratamiento de datos, retención y comunicaciones comerciales independientes.
+7. Probar usuario externo, usuario existente, inválidos, cuotas, código erróneo/caducado, renovación y acceso indebido antes de habilitar.
+8. Integrar registro al CRM Maestro **solo tras autorización expresa y pruebas en copia**, sin perder idempotencia.
+
+**Estado:** análisis concluido, adaptación y despliegue públicos **no realizados**. El formulario FREE sigue deshabilitado y la API comercial original permanece intacta.
