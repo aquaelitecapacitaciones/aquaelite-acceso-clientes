@@ -100,7 +100,7 @@ function setAuthMode(mode){
 function modeApi(action,params={}){
  if(authMode==='FREE'){
   if(!freeEnabled())return Promise.resolve({ok:false,message:'El acceso gratuito está en preparación. Todavía no es posible solicitar códigos.'});
-  return api(FREE_CONFIG.actions[action],params,FREE_CONFIG.endpoint);
+  return api(FREE_CONFIG.actions[action]||action,params,FREE_CONFIG.endpoint);
  }
  return api(action,params);
 }
