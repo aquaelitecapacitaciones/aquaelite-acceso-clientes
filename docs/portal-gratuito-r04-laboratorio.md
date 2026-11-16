@@ -86,3 +86,12 @@ Se recuperó el historial del **05/11/2026**. La evaluación de sintaxis y prueb
 - Aprobación de fusión a `main`.
 
 **Conclusión reconciliada:** R17 pasó las pruebas funcionales Chromium documentadas; se mantiene como candidata de producción por controles multidispositivo, normativos y de integración no finalizados. No repetir como pendientes las pruebas Chromium ya efectuadas salvo regresión por modificaciones posteriores.
+
+## Formulario gratuito aislado — 15/11/2026
+Se añadió a la rama de laboratorio una pantalla de registro con nombre, correo, WhatsApp, perfil y consentimiento para gestionar el acceso, incluyendo retorno al Portal. El botón de envío se mantiene **deshabilitado** deliberadamente: esta interfaz NO escribe en CRM, NO registra cuentas y NO envía códigos. Su propósito es validar presentación y estructura antes de conectar el backend apto para público.
+
+**Seguridad conservada:** endpoint y API comercial originales sin cambios, sin inserción de tokens, sin enlace al laboratorio Apps Script restringido. Pantalla de registro independiente de la sesión comercial.
+
+**Verificaciones automáticas:** JavaScript de index.html compila; no hay IDs duplicados ni referencias DOM ausentes; `main/index.html` conserva su SHA de producción; el formulario no tiene envío activo.
+
+**Pendiente clave:** implementar una API R04 pública con validación de correo, límites, sesión, permiso FREE, aislamiento de PRO/FUGAS, consentimiento y CRM Maestro; probar antes de activar botón. No copiar la lógica de la rama previa `revision-portal-2026-11-02` que mostraba todo como gratuito y no respetaba las autorizaciones comerciales.
