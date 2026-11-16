@@ -55,10 +55,10 @@
   <section id="panelCard" class="hidden">
     <div class="card">
       <div class="topbar"><div class="topbrand"><img src="logo-aquaelite.png" alt="Aquaelite"><div><span class="badge">✓ ACCESO VIGENTE</span><h1 id="welcome">Mis herramientas</h1><div id="userEmail" class="meta"></div></div></div><button id="logoutBtn" class="logout">CERRAR SESIÓN</button></div>
-      <div class="catalog-note" id="catalogNote" role="status">Explora las herramientas Aquaelite por especialidad. Los diagnósticos gratuitos están disponibles para todos; las herramientas profesionales requieren la suscripción correspondiente.</div><div id="groups" class="groups">
+      <div class="catalog-note" id="catalogNote" role="status">Explora todas las herramientas gratuitas de Aquaelite, agrupadas por autodiagnóstico, servicios y especialidades técnicas.</div><div id="groups" class="groups">
         <div class="portal-column" aria-label="Diagnóstico y servicios">
-        <section id="freeSelfGroup" class="free-card hidden"><h2>Revisa tú mismo tu instalación</h2><p>Diagnósticos para identificar problemas y tomar mejores decisiones antes de solicitar un servicio.</p><a class="free-tool" href="evento-10-09/aquacheck/" target="_blank" rel="noopener"><span class="free-icon">🏠</span><span><strong>AC-NEG-001 · AquaCheck Negocios (R17 candidata)</strong><small>Revisa el consumo de agua y realiza descartes básicos en tu negocio.</small></span></a><a class="free-tool" href="AF-01_Protocolo_Aquaelite_Diagnostico_Localizacion_Fugas_V1.pdf" target="_blank" rel="noopener"><span class="free-icon">📄</span><span><strong>AF-01 · Protocolo de diagnóstico de fugas</strong><small>Abre la guía PDF existente para revisar tu instalación.</small></span></a><div class="free-caption">Enlaces existentes verificados. El registro gratuito sigue en preparación; estas páginas públicas no están protegidas por la sesión del Portal.</div></section>
-        <section class="free-card" id="servicesIntro"><h2>Herramientas para empresas de servicios</h2><p>AF-02 y soluciones técnicas profesionales, disponibles según los permisos vigentes de cada usuario.</p></section>
+        <section id="freeSelfGroup" class="free-card hidden"><h2>Revisa tú mismo tu instalación</h2><p>Diagnósticos para identificar problemas y tomar mejores decisiones antes de solicitar un servicio.</p><a class="free-tool" href="evento-10-09/aquacheck/" target="_blank" rel="noopener"><span class="free-icon">🏠</span><span><strong>AC-NEG-001 · AquaCheck Negocios (R17 candidata)</strong><small>Revisa el consumo de agua y realiza descartes básicos en tu negocio.</small></span></a><a class="free-tool" href="AF-01_Protocolo_Aquaelite_Diagnostico_Localizacion_Fugas_V1.pdf" target="_blank" rel="noopener"><span class="free-icon">📄</span><span><strong>AF-01 · Protocolo de diagnóstico de fugas</strong><small>Abre la guía PDF existente para revisar tu instalación.</small></span></a><div class="free-caption">Herramientas de autodiagnóstico. R17 está en revisión; los enlaces públicos conservan sus versiones vigentes.</div></section>
+        <section class="free-card" id="servicesIntro"><h2>Herramientas para empresas de servicios</h2><p>AF-02 y soluciones técnicas para quienes brindan servicios, disponibles gratuitamente por ahora.</p></section>
         <section id="fugasGroup" class="group catalog-locked"><div class="group-head"><span class="group-mark">💧</span><div><h2>Kit de Fugas y Pruebas</h2><div class="group-sub">Diagnóstico, detección y control de fugas</div></div></div><div id="fugasExpiry" class="group-tag"></div><div class="tools">
           <a class="tool" href="AF-01_Protocolo_Aquaelite_Diagnostico_Localizacion_Fugas_V1.pdf" target="_blank" rel="noopener"><b><span class="tool-icon">📄</span><span class="tool-copy"><strong>AF-01 · Protocolo profesional</strong><small class="desc">Guía para el levantamiento de información en campo.</small></span></b><span>ABRIR PDF</span></a>
           <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-02/" target="_blank" rel="noopener"><b><span class="tool-icon">🔍</span><span class="tool-copy"><strong>AF-02 · Diagnóstico inicial</strong><small class="desc">Registro y análisis de condiciones del sistema.</small></span></b><span>ABRIR HERRAMIENTA</span></a>
@@ -80,7 +80,7 @@
           <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-pro-tools/ac-pci-003/" target="_blank" rel="noopener"><b><span class="tool-icon">📋</span><span class="tool-copy"><strong>AquaCheck Sala de Bombas · AC-PCI-003</strong><small class="desc">Checklist para inspección, instalación y puesta en marcha de una sala de bombas PCI.</small></span></b><span>ABRIR HERRAMIENTA</span></a>
         <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-pro-tools/ac-npsh/" target="_blank" rel="noopener"><b><span class="tool-icon">💧</span><span class="tool-copy"><strong>AquaCheck NPSH · Succión y cavitación</strong><small class="desc">NPSH disponible, pérdidas, curva de bomba y esquema de cisterna.</small></span></b><span>ABRIR HERRAMIENTA</span></a></div></section>
         </div>
-      </div><div class="footer">Aquaelite® · Acceso personal y sujeto a vigencia comercial</div>
+      </div><div class="footer">Aquaelite® · Catálogo de herramientas gratuitas</div>
     </div>
   </section>
 </main>
@@ -138,60 +138,37 @@ function saveFreeSession(r){
  localStorage.setItem(FREE_KEYS.email,r.correo);localStorage.setItem(FREE_KEYS.token,r.token);
  localStorage.setItem(FREE_KEYS.expires,String(r.expiresAt));localStorage.setItem(FREE_KEYS.name,r.nombre||'');
 }
-function applyCatalogPermissions(perms){
- const all=Array.isArray(perms)?perms:[];
+function applyCatalogPermissions(){
  $('freeSelfGroup').classList.remove('hidden');
  $('servicesIntro').classList.remove('hidden');
- const canFugas=all.includes('FUGAS'), canPro=all.includes('PRO');
- // NPSH mantiene su disponibilidad anterior para cualquier cliente comercial
- // con permisos activos; el usuario FREE solo puede visualizar su ficha.
- const canNpsh=canPro||canFugas;
- [['fugasGroup',canFugas],['proGroup',canPro],['npshAllGroup',canNpsh]].forEach(([id,allowed])=>{
-  const group=$(id);group.classList.remove('hidden');group.classList.toggle('catalog-locked',!allowed);
+ ['fugasGroup','proGroup','npshAllGroup'].forEach(id=>{
+  const group=$(id);
+  group.classList.remove('hidden','catalog-locked');
   group.querySelectorAll('a.tool').forEach(link=>{
-   if(!link.dataset.catalogUrl&&link.hasAttribute('href'))link.dataset.catalogUrl=link.getAttribute('href');
-   if(allowed){
-    if(link.dataset.catalogUrl)link.setAttribute('href',link.dataset.catalogUrl);
-    link.removeAttribute('aria-disabled');link.removeAttribute('tabindex');
-    link.style.pointerEvents='';
-    if(link.dataset.catalogAction)link.lastElementChild.textContent=link.dataset.catalogAction;
-   }else{
-    if(!link.dataset.catalogAction)link.dataset.catalogAction=link.lastElementChild.textContent.trim();
-    link.removeAttribute('href');
-    link.setAttribute('aria-disabled','true');link.setAttribute('tabindex','-1');
-    link.style.pointerEvents='none';
-    link.lastElementChild.textContent='REQUIERE SUSCRIPCIÓN';
-   }
+   if(link.dataset.catalogUrl)link.setAttribute('href',link.dataset.catalogUrl);
+   link.removeAttribute('aria-disabled');
+   link.removeAttribute('tabindex');
+   link.style.pointerEvents='';
+   if(link.dataset.catalogAction)link.lastElementChild.textContent=link.dataset.catalogAction;
   });
  });
- $('fugasExpiry').textContent=canFugas?$('fugasExpiry').textContent:'Disponible con Kit de Fugas';
- $('proExpiry').textContent=canPro?$('proExpiry').textContent:'Disponible con Aquaelite PRO';
- $('catalogNote').textContent=all.includes('FREE')&&!canFugas&&!canPro
-  ?'Estás en el catálogo Aquaelite. Abre los diagnósticos gratuitos y conoce las herramientas para profesionales. Las soluciones PRO y Kit de Fugas requieren una suscripción.'
-  :'Todas las herramientas Aquaelite están organizadas por grupos. Puedes abrir las incluidas en tus permisos vigentes y explorar el resto del catálogo.';
+ $('fugasExpiry').textContent='Acceso gratuito';
+ $('proExpiry').textContent='Acceso gratuito';
+ $('catalogNote').textContent='Todas las herramientas de este Portal están disponibles gratuitamente por el momento. Explora los autodiagnósticos, las herramientas para empresas de servicios y las especialidades técnicas.';
 }
 function renderFreePanel(r){
  const perms=Array.isArray(r.permissions)?r.permissions:[];
  if(!perms.includes('FREE')){clearFreeSession();showOnly($('requestCard'));message($('requestMessage'),'El servidor no confirmó permisos gratuitos. Comunícate con Aquaelite.','error');return}
  currentEmail=r.correo||currentEmail;$('userEmail').textContent=currentEmail;
- $('welcome').textContent=r.nombre?'Hola, '+r.nombre:'Mis diagnósticos gratuitos';
- applyCatalogPermissions(['FREE']);
+ $('welcome').textContent=r.nombre?'Hola, '+r.nombre:'Mis herramientas gratuitas';
+ applyCatalogPermissions();
  showOnly($('panelCard'));
 }
 function formatDate(ms){return ms?new Intl.DateTimeFormat('es-PE',{day:'2-digit',month:'long',year:'numeric'}).format(new Date(ms)):''}
 function renderPanel(r){
  $('userEmail').textContent=r.correo||currentEmail;
- $('welcome').textContent=r.nombre?'Hola, '+r.nombre:'Mis herramientas';
- const perms=Array.isArray(r.permissions)?r.permissions:[];
- const access=Array.isArray(r.access)?r.access:[];
- ['PRO','FUGAS'].forEach(p=>{
-  const tag=$(p==='PRO'?'proExpiry':'fugasExpiry');
-  if(perms.includes(p)){
-   const item=access.find(x=>x.permission===p);
-   tag.textContent=item?.expiresAt?'Vigente hasta '+formatDate(item.expiresAt):'Acceso vigente';
-  }
- });
- applyCatalogPermissions(perms);
+ $('welcome').textContent=r.nombre?'Hola, '+r.nombre:'Mis herramientas gratuitas';
+ applyCatalogPermissions();
  showOnly($('panelCard'));
 }
 async function checkFreeStored(){
