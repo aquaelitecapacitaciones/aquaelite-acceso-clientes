@@ -46,3 +46,25 @@ Los archivos estáticos y las aplicaciones GitHub Pages con URL pública no pued
 - `main` conserva la versión previamente publicada. La R17 sigue siendo **candidata**: no hay constancia de aprobación final normativa ni de pruebas visuales Edge/Safari/móvil.
 - En el Portal de laboratorio se identifica como «R17 candidata». No confundir el enlace de producción con la revisión preparada en esta rama.
 - Validación pendiente: cálculo de consumos, pruebas hidráulicas opcionales, resultados, exportación PDF de cuatro páginas, paginación y firmas del Formato N.º 2.
+
+## Pruebas de R17 candidata — 15/11/2026
+**Modalidad:** análisis de fuente y ejecución aislada de funciones JavaScript; NO equivale a pruebas E2E con navegador.
+
+### Aprobado
+- Sintaxis: los cuatro bloques JavaScript inline compilan sin errores de sintaxis.
+- HTML: no se identificaron IDs duplicados (47 IDs únicos).
+- Referencias de botones: todas las funciones citadas en los `onclick` estáticos tienen definiciones.
+- Cálculos de la función real `calc(false)`: 5/5 casos correctos:
+  1. 20→30 m³ / 30→30 días = +50% consumo diario; diferencia +10 m³; montos S/100→S/150, diferencia S/50.
+  2. 20→30 m³ / 20→30 días = 0% variación del consumo diario (períodos distintos).
+  3. Rechaza días anteriores iguales a cero.
+  4. Rechaza consumo anterior negativo.
+  5. Ante consumo anterior cero y consumo actual positivo retorna variación porcentual `null` (sin división por cero).
+
+### Observaciones pendientes
+- **Identificación incorrecta:** el título HTML sigue indicando `Candidata visual R08` aunque el commit de origen señala R17; aparecen cinco menciones de R08 y ninguna etiqueta R17 dentro del contenido.
+- **Exportación PDF:** existe la función `downloadPdf()`, con html2pdf externo; no hay botón `aqDownloadPdfBtn` ni llamada de la interfaz a dicha función. La opción visible es `IMPRIMIR O GUARDAR EXPEDIENTE COMPLETO EN PDF`, que usa impresión del navegador.
+- **Funciones duplicadas:** 11 nombres de funciones se definen dos veces, entre ellas `calc`, `evaluateAll`, `syncOfficial` y `printOfficial`. La última definición prevalece; requiere regresión para comprobar que se conserva toda la funcionalidad esperada.
+- Pendientes pruebas reales en navegador: flujo completo, Formato N.º 2, firmas, paginación, archivo PDF descargado, interfaz móvil y biblioteca CDN.
+
+**Conclusión:** lógica de cálculo básica aprobada en pruebas aisladas; NO se aprueba aún la R17 para producción.
