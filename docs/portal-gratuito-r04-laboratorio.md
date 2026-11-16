@@ -68,3 +68,21 @@ Los archivos estáticos y las aplicaciones GitHub Pages con URL pública no pued
 - Pendientes pruebas reales en navegador: flujo completo, Formato N.º 2, firmas, paginación, archivo PDF descargado, interfaz móvil y biblioteca CDN.
 
 **Conclusión:** lógica de cálculo básica aprobada en pruebas aisladas; NO se aprueba aún la R17 para producción.
+
+## Conciliación con pruebas históricas R17 — 15/11/2026
+Se recuperó el historial del **05/11/2026**. La evaluación de sintaxis y pruebas unitarias de 15/11 **no invalida** las pruebas funcionales anteriores.
+
+### Evidencia histórica ya realizada
+- R16: validación de diagnóstico incompleto, caso de cálculo orientativo, fotografías múltiples y PDF Chromium, inicialmente con una hoja casi vacía.
+- R17 candidata: ajuste de paginación de 5 a **4 páginas** en Chromium: páginas 1–2 diagnóstico y evidencias, página 3 Formato N.º 2 y firmas, página 4 reverso. Se informó recorrido sin errores JS.
+- El archivo candidato R17 fue preservado en la rama de revisión con commit `0e5dc9b40ff8763272ae5dd1cf699918f60495b7`, integrado a este laboratorio.
+- La revisión actual cambió exclusivamente el título visible de la pestaña de `Candidata visual R08` a `R17 candidata`; los comentarios históricos R08 dentro de CSS no constituyen fallo funcional.
+- Once nombres de función redefinidos proceden del desarrollo incremental; no son, por sí solos, evidencia de error. Las pruebas históricas prevalecen para los recorridos que cubrieron.
+
+### Aún no acreditado
+- Regresión real en Edge, Safari/iPhone y Android, incluida paginación y firmas en PDF.
+- Revisión normativa/legal definitiva del modelo del Formato N.º 2 frente a fuente SUNASS vigente.
+- Despliegue de registro gratuito R04 para usuarios externos, sincronización CRM original y regresión de permisos comerciales.
+- Aprobación de fusión a `main`.
+
+**Conclusión reconciliada:** R17 pasó las pruebas funcionales Chromium documentadas; se mantiene como candidata de producción por controles multidispositivo, normativos y de integración no finalizados. No repetir como pendientes las pruebas Chromium ya efectuadas salvo regresión por modificaciones posteriores.
