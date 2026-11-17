@@ -25,6 +25,26 @@ function freeSheet_(){
  if(sh.getRange(1,1,1,FREE_R04.fields.length).getDisplayValues()[0].join('|')!==FREE_R04.fields.join('|'))throw Error('Cabecera de base FREE inesperada');
  return sh;
 }
+/** START multiorigen: etiquetas de atribución, no comprobantes de procedencia. */
+const FREE_START_ORIGINS=Object.freeze(['DIRECTO','WEB_CORPORATIVA','KIT_FUGAS','KIT_PRUEBAS','REDES_SOCIALES']);
+const FREE_START_EVENTS_TAB='EVENTOS_START';
+const FREE_START_EVENTS_HEADERS=['Correo','Categoria','Origen','Campania','Fecha ingreso'];
+function freeStartOrigin_(v){
+ const x=String(v||'DIRECTO').trim().toUpperCase();
+ return FREE_START_ORIGINS.includes(x)?x:'DIRECTO';
+}
+function freeStartCampaign_(v){
+ const x=String(v||'').trim().toUpperCase();
+ return /^[A-Z0-9_-]{0,40}$/.test(x)?x:'';
+}
+function freeStartEvent_(email,origin,campaign){
+ const ss=SpreadsheetApp.openById(freeSetupCheck_().id);
+ let sh=ss.getSheetByName(FREE_START_EVENTS_TAB);
+ if(!sh){sh=ss.insertSheet(FREE_START_EVENTS_TAB);sh.appendRow(FREE_START_EVENTS_HEADERS);sh.setFrozenRows(1)}
+ if(sh.getRange(1,1,1,5).getDisplayValues()[0].join('|')!==FREE_START_EVENTS_HEADERS.join('|'))
+  throw Error('Cabecera de EVENTOS_START inesperada');
+ sh.appendRow([email,'START',freeStartOrigin_(origin),freeStartCampaign_(campaign),new Date()]);
+}
 function freeEmail_(v){return String(v||'').trim().toLowerCase()}
 function freeValidEmail_(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)&&v.length<=254}
 function freeClean_(v,n){return String(v||'').trim().replace(/[<>]/g,'').slice(0,n)}
@@ -84,7 +104,7 @@ function freeRequestCode(correo){
   return {ok:true,message:'Si el correo está registrado, recibirá un código.'};
  });
 }
-function freeVerifyCode(correo,codigo){
+function freeVerifyCode(correo,codigo,origen,campania){
  return freeLocked_(()=>{
   const email=freeEmail_(correo),pin=String(codigo||'').trim();
   if(!freeValidEmail_(email)||!/^\d{6}$/.test(pin))return {ok:false,message:'Código incorrecto o vencido.'};
@@ -101,6 +121,8 @@ function freeVerifyCode(correo,codigo){
   sh.getRange(row,7).setValue('VERIFICADO');
   sh.getRange(row,8,1,6).setValues([['','','',0,freeDigest_(email+':'+token),expiresAt]]);
   sh.getRange(row,14).setValue(new Date());
+  // La atribución no bloquea el acceso si falla el registro de marketing.
+  try{freeStartEvent_(email,origen,campania)}catch(err){console.error('START evento no registrado:',err)}
   return {ok:true,correo:email,nombre:String(v[1]||''),token,expiresAt,permissions:['FREE']};
  });
 }
@@ -114,6 +136,10 @@ function freeCheckSession(correo,token){
   return {ok:false,message:'Sesión inválida o vencida.'};
  return {ok:true,correo:email,nombre:String(v[1]||''),expiresAt,permissions:['FREE']};
 }
-function doGet(){
- return HtmlService.createHtmlOutputFromFile('FreePortal').setTitle('Aquaelite | Acceso gratuito');
+function doGet(e){
+ const p=(e&&e.parameter)||{};
+ const t=HtmlService.createTemplateFromFile('FreePortal');
+ // Solo valores acotados y aprobados se imprimen en el HTML.
+ t.startAttribution=JSON.stringify({origen:freeStartOrigin_(p.src),campania:freeStartCampaign_(p.cmp)});
+ return t.evaluate().setTitle('Aquaelite | Acceso gratuito');
 }
