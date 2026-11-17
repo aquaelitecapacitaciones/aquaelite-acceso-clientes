@@ -8,16 +8,42 @@
 :root{--bg:#061a2b;--shell:#0b2a40;--panel:#082238;--card:#071c2d;--line:#1b5577;--cyan:#22c9f3;--text:#f8fbfd;--muted:#bfd0da;--green:#45dfa1}
 *{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Inter,"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at 50% -10%,#123e59 0,transparent 38%),var(--bg);color:var(--text)}.wrap{width:min(1160px,calc(100% - 36px));margin:28px auto}.card{background:var(--shell);border:1px solid #19445f;border-radius:18px;padding:28px;box-shadow:0 24px 65px rgba(0,0,0,.28)}.auth{max-width:510px;margin:7vh auto}.logo{background:#fff;border-radius:12px;padding:11px 17px;width:min(100%,320px);margin:0 auto 22px}.logo img{display:block;width:100%}.badge{display:inline-block;padding:7px 13px;border-radius:99px;background:#104866;color:#d9f6ff;font-size:11px;font-weight:700}.center{text-align:center}h1{font-size:28px;margin:15px 0 7px;letter-spacing:-.02em}.lead{color:var(--muted);line-height:1.5;margin:0 0 24px}label{display:block;font-size:13px;font-weight:700;margin:0 0 8px}input{width:100%;padding:14px;border-radius:10px;border:1px solid #24536e;background:#071c2b;color:#fff;font-size:16px;margin-bottom:16px;outline:none}input:focus{border-color:var(--cyan)}button,.button{display:block;width:100%;padding:14px;border:0;border-radius:10px;background:linear-gradient(90deg,#148fc5,#1bbce1);color:#fff;font-weight:800;font-size:14px;cursor:pointer;text-align:center;text-decoration:none}.secondary{background:transparent;border:1px solid #28546e;margin-top:10px}.hidden{display:none!important}.message{display:none;margin-top:16px;padding:12px;border-radius:9px;font-size:13px;line-height:1.5}.message.error{display:block;background:#421f29;color:#ffb4bc}.message.success{display:block;background:#123d33;color:#94e8bd}.message.info{display:block;background:#15364a;color:#b8e5ff}.code{text-align:center;letter-spacing:7px;font-size:24px}
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:22px;margin-bottom:22px;border-bottom:1px solid #1a4965}.topbrand{display:flex;align-items:center;gap:18px}.topbrand img{width:185px;background:#fff;border-radius:9px;padding:8px}.meta{color:#b8cad5;font-size:12px;margin-top:5px}.logout{width:auto;padding:10px 16px;background:transparent;border:1px solid #2a5872;font-size:12px}
-.groups{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:stretch;background:#071f33;border:1px solid #1b5577;border-radius:14px;padding:10px}.group{background:transparent;border:0;border-radius:0;padding:0 6px;display:flex;flex-direction:column;min-height:100%}.group+.group{border-left:1px solid #174763;padding-left:14px}.group-head{display:grid;grid-template-columns:54px 1fr;gap:10px;align-items:center;min-height:68px;padding:4px 5px 10px}.group-mark{display:flex;align-items:center;justify-content:center;width:50px;height:50px;font-size:35px;line-height:1}.group h2{font-size:20px;line-height:1.15;margin:0 0 3px}.group-sub{font-size:12px;color:#c2d2dc;line-height:1.3}.group-tag{font-size:10.5px;color:var(--green);font-weight:700;margin:0 0 8px 64px}.tools{display:grid;gap:7px;flex:1;grid-auto-rows:1fr}.tool{display:grid;grid-template-columns:48px minmax(0,1fr) 18px;gap:12px;align-items:center;min-height:72px;height:100%;background:#071b2b;border:1px solid #205574;border-radius:9px;padding:9px 11px;color:#fff;text-decoration:none;transition:.15s}.tool:hover{border-color:var(--cyan);background:#09253a}.tool b{display:contents}.tool-icon{grid-column:1;display:flex;align-items:center;justify-content:center;width:44px;height:44px;font-size:30px;line-height:1;color:#4fd5f6}.tool-copy{grid-column:2;min-width:0}.tool-copy strong{display:block;font-size:13.5px;line-height:1.25;font-weight:750}.tool .desc{display:block;margin-top:4px;color:#c1d0d9;font-size:11.5px;line-height:1.32;font-weight:400}.tool>span:last-child{grid-column:3;font-size:0;color:var(--cyan)}.tool>span:last-child:after{content:"›";font-size:28px;font-weight:300;line-height:1}.real-tool-icon{display:block;width:44px;height:44px;object-fit:contain;border-radius:5px;background:#fff}.curve-icon{padding:2px}.pci-cabinet{position:relative;display:block;width:32px;height:38px;border:3px solid #ff3d45;border-radius:2px}.pci-cabinet:before{content:"";position:absolute;left:5px;top:6px;width:15px;height:15px;border:3px solid #ff3d45;border-radius:50%}.pci-cabinet:after{content:"";position:absolute;right:3px;bottom:4px;width:5px;height:5px;background:#ff3d45;border-radius:50%}.pci-cabinet i{position:absolute;left:8px;top:9px;width:9px;height:9px;border:2px solid #ff3d45;border-radius:50%}.pump-curve{position:relative;display:block;width:38px;height:36px}.pump-curve:before{content:"";position:absolute;left:8px;top:10px;width:22px;height:19px;border:3px solid #ff3d45;border-radius:5px}.pump-curve:after{content:"";position:absolute;left:0;top:16px;width:9px;height:9px;background:#ff3d45;border-radius:50%}.pump-curve i:before{content:"";position:absolute;left:12px;top:3px;width:14px;height:4px;background:#ff3d45;border-radius:2px}.pump-curve i:after{content:"↗";position:absolute;right:-3px;top:-7px;color:#ff3d45;font-size:18px;font-style:normal;font-weight:900}.footer{text-align:center;color:#6f8c9d;font-size:11px;margin-top:18px}
-@media(max-width:780px){.groups{grid-template-columns:1fr;align-items:start}.group{min-height:auto}.tools{grid-auto-rows:auto}.topbar,.topbrand{align-items:flex-start;flex-direction:column}.logout{width:100%}}@media(max-width:600px){.wrap{width:min(100% - 20px,1160px);margin:12px auto}.card{padding:16px}.topbrand img{width:165px}h1{font-size:24px}.group{padding:13px}.tool{grid-template-columns:42px minmax(0,1fr) 14px;padding:10px;gap:9px}.tool-icon{width:38px;height:38px;font-size:25px}}
+.groups{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start;background:#071f33;border:1px solid #1b5577;border-radius:14px;padding:10px}.portal-column{display:flex;flex-direction:column;gap:14px;min-width:0}.portal-column+.portal-column{border-left:1px solid #174763;padding-left:14px}.group{min-width:0}.free-card{padding:16px;background:#0b3048;border:1px solid #296581;border-radius:12px}.free-card h2{font-size:18px;margin:0 0 8px}.free-card p{font-size:12px;color:#c2d2dc;line-height:1.55}.free-tool{display:flex;align-items:flex-start;gap:10px;padding:12px 10px;border:1px solid #27627d;border-radius:9px;margin-top:8px;color:#fff;text-decoration:none}.free-tool strong{font-size:13px}.free-tool small{display:block;color:#bfd0da;font-size:11px;margin-top:4px}.free-tool.pending{opacity:.7;cursor:default}.free-tool .free-icon{font-size:24px}.free-caption{font-size:11px;color:#92cfe2;margin-top:10px}.free-entry{margin-top:20px;padding:17px;border:1px solid #286580;border-radius:12px;background:#0a3048}.free-entry h2{font-size:17px;margin:0 0 7px}.free-entry p{color:#c6d9e4;font-size:12px;line-height:1.5;margin:0 0 12px}.free-entry button{background:#16445e;border:1px solid #39738e;color:#c1dfea}.registration-note{color:#a6c8d9;font-size:12px;line-height:1.5}.reg-check{display:flex;align-items:flex-start;gap:10px;margin:4px 0 16px;font-weight:400}.reg-check input{width:auto;margin:3px 0 0}.reg-check span{flex:1}.form-hint{font-size:11px;color:#b8d4e4;margin:-10px 0 15px}.registration-status{margin:14px 0;padding:12px;border:1px solid #28546e;border-radius:10px;background:#13384d;color:#d0e8f4;font-size:12px}.discipline{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#64d3f2;font-weight:800;margin:10px 0 7px}.group{background:transparent;border:0;border-radius:0;padding:0 6px;display:flex;flex-direction:column;min-height:100%}.group+.group{border-left:1px solid #174763;padding-left:14px}.group-head{display:grid;grid-template-columns:54px 1fr;gap:10px;align-items:center;min-height:68px;padding:4px 5px 10px}.group-mark{display:flex;align-items:center;justify-content:center;width:50px;height:50px;font-size:35px;line-height:1}.group h2{font-size:20px;line-height:1.15;margin:0 0 3px}.group-sub{font-size:12px;color:#c2d2dc;line-height:1.3}.group-tag{font-size:10.5px;color:var(--green);font-weight:700;margin:0 0 8px 64px}.tools{display:grid;gap:7px;flex:1;grid-auto-rows:1fr}.tool{display:grid;grid-template-columns:48px minmax(0,1fr) 18px;gap:12px;align-items:center;min-height:72px;height:100%;background:#071b2b;border:1px solid #205574;border-radius:9px;padding:9px 11px;color:#fff;text-decoration:none;transition:.15s}.tool:hover{border-color:var(--cyan);background:#09253a}.tool b{display:contents}.tool-icon{grid-column:1;display:flex;align-items:center;justify-content:center;width:44px;height:44px;font-size:30px;line-height:1;color:#4fd5f6}.tool-copy{grid-column:2;min-width:0}.tool-copy strong{display:block;font-size:13.5px;line-height:1.25;font-weight:750}.tool .desc{display:block;margin-top:4px;color:#c1d0d9;font-size:11.5px;line-height:1.32;font-weight:400}.tool>span:last-child{grid-column:3;font-size:0;color:var(--cyan)}.tool>span:last-child:after{content:"›";font-size:28px;font-weight:300;line-height:1}.real-tool-icon{display:block;width:44px;height:44px;object-fit:contain;border-radius:5px;background:#fff}.curve-icon{padding:2px}.pci-cabinet{position:relative;display:block;width:32px;height:38px;border:3px solid #ff3d45;border-radius:2px}.pci-cabinet:before{content:"";position:absolute;left:5px;top:6px;width:15px;height:15px;border:3px solid #ff3d45;border-radius:50%}.pci-cabinet:after{content:"";position:absolute;right:3px;bottom:4px;width:5px;height:5px;background:#ff3d45;border-radius:50%}.pci-cabinet i{position:absolute;left:8px;top:9px;width:9px;height:9px;border:2px solid #ff3d45;border-radius:50%}.pump-curve{position:relative;display:block;width:38px;height:36px}.pump-curve:before{content:"";position:absolute;left:8px;top:10px;width:22px;height:19px;border:3px solid #ff3d45;border-radius:5px}.pump-curve:after{content:"";position:absolute;left:0;top:16px;width:9px;height:9px;background:#ff3d45;border-radius:50%}.pump-curve i:before{content:"";position:absolute;left:12px;top:3px;width:14px;height:4px;background:#ff3d45;border-radius:2px}.pump-curve i:after{content:"↗";position:absolute;right:-3px;top:-7px;color:#ff3d45;font-size:18px;font-style:normal;font-weight:900}.footer{text-align:center;color:#6f8c9d;font-size:11px;margin-top:18px}
+@media(max-width:780px){.groups{grid-template-columns:1fr;align-items:start}.portal-column+.portal-column{border-left:0;border-top:1px solid #174763;padding-left:0;padding-top:14px}.group{min-height:auto}.tools{grid-auto-rows:auto}.topbar,.topbrand{align-items:flex-start;flex-direction:column}.logout{width:100%}}@media(max-width:600px){.wrap{width:min(100% - 20px,1160px);margin:12px auto}.card{padding:16px}.topbrand img{width:165px}h1{font-size:24px}.group{padding:13px}.tool{grid-template-columns:42px minmax(0,1fr) 14px;padding:10px;gap:9px}.tool-icon{width:38px;height:38px;font-size:25px}}
+</style>
+<style id="catalogStyles">
+.catalog-note{background:#0d3853;border:1px solid #286c8b;border-radius:12px;padding:13px 16px;margin:0 0 17px;color:#d6ebf4;font-size:13px;line-height:1.55}
+.catalog-locked .tool{opacity:.62;cursor:default}
+.catalog-locked .tool>span:last-child{font-size:10px;white-space:nowrap;color:#ffdca8}
+.catalog-locked .group-tag{color:#ffdca8}
+.catalog-locked .group-head{opacity:.85}
+.portal-column .discipline{margin-top:13px}
 </style>
 </head>
 <body>
 <main class="wrap">
   <section id="requestCard" class="card auth">
-    <div class="center"><div class="logo"><img src="logo-aquaelite.png" alt="Aquaelite"></div><span class="badge">🔐 ACCESO A HERRAMIENTAS DIGITALES</span><h1>Portal de Clientes</h1><p class="lead">Ingresa el correo con el que activaste tu compra. Recibirás un código personal de 6 dígitos.</p></div>
+    <div class="center"><div class="logo"><img src="logo-aquaelite.png" alt="Aquaelite"></div><span class="badge">🔐 ACCESO A HERRAMIENTAS DIGITALES</span><h1>Portal Digital Aquaelite</h1><p class="lead" id="loginIntro">Clientes con acceso comercial: ingresa tu correo para recibir un código de 6 dígitos.</p></div>
     <label for="email">Correo electrónico</label><input id="email" type="email" autocomplete="email" placeholder="correo@ejemplo.com">
-    <button id="sendBtn">ENVIAR CÓDIGO DE ACCESO</button><div id="requestMessage" class="message"></div><div class="footer">El código vence en 15 minutos.</div>
+    <button id="sendBtn">ENVIAR CÓDIGO DE ACCESO</button><button id="freeLoginBtn" type="button" class="secondary">YA TENGO ACCESO GRATUITO</button><button id="paidLoginBtn" type="button" class="secondary hidden">VOLVER A ACCESO COMERCIAL</button><div id="requestMessage" class="message"></div><div class="footer">El código vence en 15 minutos.</div><div class="free-entry"><h2>¿Primera vez en Aquaelite?</h2><p>Pronto podrás registrarte para utilizar nuestros diagnósticos gratuitos. El acceso comercial existente continúa funcionando normalmente.</p><button id="showRegisterBtn" type="button">REGISTRARME GRATIS</button></div>
+  </section>
+
+  <section id="registerCard" class="card auth hidden" aria-labelledby="registerHeading">
+    <div class="center"><div class="logo"><img src="logo-aquaelite.png" alt="Aquaelite"></div><span class="badge">💧 ACCESO GRATUITO · LABORATORIO</span><h1 id="registerHeading">Regístrate una sola vez</h1><p class="lead">Preparamos un acceso gratuito separado de las suscripciones comerciales. Este formulario todavía no envía datos ni solicita códigos.</p></div>
+    <form id="freeRegisterForm" novalidate>
+      <label for="freeName">Nombre y apellidos</label><input id="freeName" name="nombre" autocomplete="name" minlength="5" maxlength="120" required placeholder="Tu nombre completo">
+      <label for="freeEmail">Correo electrónico</label><input id="freeEmail" name="correo" type="email" autocomplete="email" maxlength="254" required placeholder="correo@ejemplo.com">
+      <label for="freePhone">WhatsApp</label><input id="freePhone" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" maxlength="22" required placeholder="999 999 999">
+      <label for="freeProfile">¿Cómo usarás las herramientas?</label>
+      <select id="freeProfile" name="perfil" style="width:100%;padding:13px;border:1px solid #24536e;border-radius:10px;background:#071c2b;color:white;margin-bottom:15px;font-size:15px">
+        <option value="persona">Para mi hogar o negocio</option><option value="servicios">Trabajo en servicios o mantenimiento</option><option value="empresa">Soy parte de una empresa</option>
+      </select>
+      <label class="reg-check" for="freeConsent"><input id="freeConsent" type="checkbox" required><span>Autorizo el uso de estos datos para gestionar mi registro y acceso gratuito. Las comunicaciones comerciales requerirán autorización separada.</span></label>
+      <div class="registration-status" id="freeRegistrationStatus" role="status">Formulario de demostración: el registro público R04 aún está deshabilitado y no se almacenará ninguna información.</div>
+      <button id="freeSubmitBtn" type="submit" disabled>REGISTRO TEMPORALMENTE NO DISPONIBLE</button>
+      <button id="freeBackBtn" class="secondary" type="button">VOLVER AL PORTAL</button>
+      <div id="freeRegisterMessage" class="message" aria-live="polite"></div>
+    </form>
   </section>
 
   <section id="verifyCard" class="card auth hidden">
@@ -29,8 +55,11 @@
   <section id="panelCard" class="hidden">
     <div class="card">
       <div class="topbar"><div class="topbrand"><img src="logo-aquaelite.png" alt="Aquaelite"><div><span class="badge">✓ ACCESO VIGENTE</span><h1 id="welcome">Mis herramientas</h1><div id="userEmail" class="meta"></div></div></div><button id="logoutBtn" class="logout">CERRAR SESIÓN</button></div>
-      <div id="groups" class="groups">
-        <section id="fugasGroup" class="group hidden"><div class="group-head"><span class="group-mark">💧</span><div><h2>Kit de Fugas y Pruebas</h2><div class="group-sub">Diagnóstico, detección y control de fugas</div></div></div><div id="fugasExpiry" class="group-tag"></div><div class="tools">
+      <div class="catalog-note" id="catalogNote" role="status">Explora todas las herramientas gratuitas de Aquaelite, agrupadas por autodiagnóstico, servicios y especialidades técnicas.</div><div id="groups" class="groups">
+        <div class="portal-column" aria-label="Diagnóstico y servicios">
+        <section id="freeSelfGroup" class="free-card hidden"><h2>Revisa tú mismo tu instalación</h2><p>Diagnósticos para identificar problemas y tomar mejores decisiones antes de solicitar un servicio.</p><a class="free-tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-acceso-clientes/ac-neg-001-r17/" target="_blank" rel="noopener"><span class="free-icon">🏠</span><span><strong>AC-NEG-001 · AquaCheck Negocios (R17 candidata)</strong><small>Revisa el consumo de agua y realiza descartes básicos en tu negocio.</small></span></a><a class="free-tool" href="AF-01_Protocolo_Aquaelite_Diagnostico_Localizacion_Fugas_V1.pdf" target="_blank" rel="noopener"><span class="free-icon">📄</span><span><strong>AF-01 · Protocolo de diagnóstico de fugas</strong><small>Abre la guía PDF existente para revisar tu instalación.</small></span></a><div class="free-caption">Herramientas de autodiagnóstico. R17 está en revisión; los enlaces públicos conservan sus versiones vigentes.</div></section>
+        <section class="free-card" id="servicesIntro"><h2>Herramientas para empresas de servicios</h2><p>AF-02 y soluciones técnicas para quienes brindan servicios, disponibles gratuitamente por ahora.</p></section>
+        <section id="fugasGroup" class="group catalog-locked"><div class="group-head"><span class="group-mark">💧</span><div><h2>Kit de Fugas y Pruebas</h2><div class="group-sub">Diagnóstico, detección y control de fugas</div></div></div><div id="fugasExpiry" class="group-tag"></div><div class="tools">
           <a class="tool" href="AF-01_Protocolo_Aquaelite_Diagnostico_Localizacion_Fugas_V1.pdf" target="_blank" rel="noopener"><b><span class="tool-icon">📄</span><span class="tool-copy"><strong>AF-01 · Protocolo profesional</strong><small class="desc">Guía para el levantamiento de información en campo.</small></span></b><span>ABRIR PDF</span></a>
           <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-02/" target="_blank" rel="noopener"><b><span class="tool-icon">🔍</span><span class="tool-copy"><strong>AF-02 · Diagnóstico inicial</strong><small class="desc">Registro y análisis de condiciones del sistema.</small></span></b><span>ABRIR HERRAMIENTA</span></a>
           <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-03/" target="_blank" rel="noopener"><b><span class="tool-icon">💧</span><span class="tool-copy"><strong>AF-03 · Descarte y sectorización</strong><small class="desc">Procedimiento para identificar posibles fugas.</small></span></b><span>ABRIR HERRAMIENTA</span></a>
@@ -38,36 +67,130 @@
           <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-06/" target="_blank" rel="noopener"><b><span class="tool-icon">🛠️</span><span class="tool-copy"><strong>AF-06 · Procedimiento de intervención</strong><small class="desc">Pasos para la corrección de fugas.</small></span></b><span>ABRIR HERRAMIENTA</span></a>
           <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-kit-fugas/af-07/" target="_blank" rel="noopener"><b><span class="tool-icon">🧮</span><span class="tool-copy"><strong>AF-07 · Guía comercial y cotizador</strong><small class="desc">Estimación de costos y propuesta técnica.</small></span></b><span>ABRIR HERRAMIENTA</span></a>
         </div></section>
-        <section id="npshAllGroup" class="group hidden"><div class="group-head"><span class="group-mark">💧</span><div><h2>Herramientas Aquaelite PRO</h2><div class="group-sub">AquaCheck NPSH · Disponible para todos los clientes</div></div></div><div class="tools"><a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-pro-tools/ac-npsh/" target="_blank" rel="noopener"><b><span class="tool-icon">💧</span><span class="tool-copy"><strong>AquaCheck NPSH · Succión y cavitación</strong><small class="desc">NPSH disponible, pérdidas, curva de bomba y esquema de cisterna.</small></span></b><span>ABRIR HERRAMIENTA</span></a></div></section>
-        <section id="proGroup" class="group hidden"><div class="group-head"><span class="group-mark">🛡️</span><div><h2>Herramientas Aquaelite PRO</h2><div class="group-sub">Normativa, evaluación y verificación técnica</div></div></div><div id="proExpiry" class="group-tag"></div><div class="tools">
+        </div>
+        <div class="portal-column" aria-label="Especialidades técnicas">
+        <div class="discipline">Bombeo y presurización</div>
+        <section id="npshAllGroup" class="group catalog-locked"><div class="group-head"><span class="group-mark">💧</span><div><h2>Herramientas Aquaelite PRO</h2><div class="group-sub">AquaCheck NPSH · Disponible para todos los clientes</div></div></div><div class="tools"><a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-pro-tools/ac-npsh/" target="_blank" rel="noopener"><b><span class="tool-icon">💧</span><span class="tool-copy"><strong>AquaCheck NPSH · Succión y cavitación</strong><small class="desc">NPSH disponible, pérdidas, curva de bomba y esquema de cisterna.</small></span></b><span>ABRIR HERRAMIENTA</span></a></div></section>
+        <div class="discipline">Protección contra incendios · Edificaciones</div>
+        <section id="proGroup" class="group catalog-locked"><div class="group-head"><span class="group-mark">🛡️</span><div><h2>Herramientas Aquaelite PRO</h2><div class="group-sub">Normativa, evaluación y verificación técnica</div></div></div><div id="proExpiry" class="group-tag"></div><div class="tools">
           <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-pro-tools/ac-rne-001/" target="_blank" rel="noopener"><b><span class="tool-icon">🏢</span><span class="tool-copy"><strong>AquaCheck Vivienda · AC-RNE-001</strong><small class="desc">Revisión digital de criterios aplicables a vivienda.</small></span></b><span>ABRIR HERRAMIENTA</span></a>
           <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-pro-tools/ac-rne-002/" target="_blank" rel="noopener"><b><span class="tool-icon">📐</span><span class="tool-copy"><strong>AquaCheck Educación · AC-RNE-002</strong><small class="desc">Evaluación técnica para edificaciones educativas.</small></span></b><span>ABRIR HERRAMIENTA</span></a>
           <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-pro-tools/" target="_blank" rel="noopener"><b><span class="tool-icon"><img class="real-tool-icon" src="data:image/webp;base64,UklGRiYCAABXRUJQVlA4IBoCAAAQDQCdASo/AFAAPrVOoUunJCMlKBZtUOAWiWwAxQwTjDfJYVVLw3Z5UN1cwus6sS6Ps/9895rnPvPBkCZBkPQGRDr+iGX2izNoovyxvjEIBPVjhhvkMpc8CyP2L++pYvxCs+ilRtKEa+vcC9bscXDYwAD+uHLO/jBXhV6mrb+nvP/iy/5tB96H/2ln/Ssf6lncaF59u/HtUk84UtD4iR5Fa5dg2sVhXUnOnTE5UkyYTmtBBKEUrTS41iS9mxNSQjaWivy+iaFFwsCQf5MKT5S8RlHpdOmB4vCpbwpbjKtj9QFtKuGjiqiHhh6hwqQx0oKhdNqIJ+PBjJdxeo+NY/Lr48Ug3L3TRQRiKz+iexY7l7urcCw7U3g/j1YvCWYhWzQ2b5UJdZY7x5gjSzwinTNWBHfz/2JpYZwa/SYPkLdwd5cmTbIdoWec9j5VSyNJf6Kg2gZ7yTKkC0xaSB9jtXnyvXU6mAC7hA0tldgt0pwZ4D7VvABgOHbhQfWDFYEsWcSMm0A4CNidFfOsk/ldJVqL/2d+lKK28hJbydJwkjm9KsQF62oO9WD4h83QRrksyHIcUD+zcl0ZA5uFfkLcFeigXJ0KnG1uFpugGxtUY18KjSkko1duf1zRDqEu1sB26x707mRrBqjpSxLejZn+BSJ35QA4sYj1XMdOIH/1457fivi80vJ8cixcJJyePuv+aAjwVZiWVEUP0AAA" alt="Gabinete contra incendio"></span><span class="tool-copy"><strong>Prueba hidráulica de gabinetes · AC-PCI-001</strong><small class="desc">Registro y validación de caudal y presión en gabinetes contra incendio.</small></span></b><span>ABRIR HERRAMIENTA</span></a>
           <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-pro-tools/ac-pci-002/" target="_blank" rel="noopener"><b><span class="tool-icon"><img class="real-tool-icon curve-icon" src="data:image/webp;base64,UklGRmwCAABXRUJQVlA4IGACAACQDwCdASpQADcAPrVQoEqnJSMhqzbcSOAWiWUvvvf9w3kFG0NwdbZKnkOJ7kIjVzOJDTLL3/im6yG4/PUNHm5L926BfGTlhyPBLPahfewS+3IGbGTCssSJcsaV3jcpC8Fx5AKjaUiSvw33769+IDmh4md7mIDQnnaFNjrUvYjvE7tZXW0AAP73W+aI23MxvDpg7EGjMPhY58xWUo7t5Zbyah1mqD1DJy2K2UZcqPx75miRNAIv85EfFrRqlF1eeiLkPu/lmibTMQrkE/QPhyrL9IOoCeQ6A7DiuV/4O0ABnIcg3VgHHgpT5sw6EIN4UAkPn6t+6R8r/2MMyCZu9+zyfYvlC/qJ7Va3jizjE3Va92MCgACcEI9ba/Ee6emPcjL7kOnhJXIQ9M04T09U7dAPQtEPw1HflrVUp8XrWN5g0pCUm6x0khNrLVKgWIPKzc94uNUa6Qy50F53wl3wWqNcLLwgBUS12hUwZ6GqFXFdGYRTinqdrWHEY3A//Lciz1pL9ew9xPKhPPf+WiXBA8ItX1W6ljE5TGnE9awJAlF5nfGXpVq+fOvqn8Nir5sjJSGWU0q33k8MbxNst0I3BWtsdHzuv1HP/rTYDyoaopq8ZDKipd9zHSFBtgtZXDiPApd1h3bnRvoq+/JwnL21QyYH6gdYkJOaBNHJGW9dwScH7XcNHfWqF5+3BbUMXufx2y0BSlQwY5a0K8lx4uljYh+awK7nMzIlvH6vj+c12HyxN/NdI4970dsflkmrMLsvn2DT5TDA2jCBVsBeTpnvEDkJo6RPrz+d1uLRWxYIIEAAAA==" alt="Curva de bomba contra incendio"></span><span class="tool-copy"><strong>AquaCheck Curva de Bomba · AC-PCI-002</strong><small class="desc">Registro de puntos de prueba y análisis de la curva de la bomba.</small></span></b><span>ABRIR HERRAMIENTA</span></a>
           <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-pro-tools/ac-pci-003/" target="_blank" rel="noopener"><b><span class="tool-icon">📋</span><span class="tool-copy"><strong>AquaCheck Sala de Bombas · AC-PCI-003</strong><small class="desc">Checklist para inspección, instalación y puesta en marcha de una sala de bombas PCI.</small></span></b><span>ABRIR HERRAMIENTA</span></a>
         <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-pro-tools/ac-npsh/" target="_blank" rel="noopener"><b><span class="tool-icon">💧</span><span class="tool-copy"><strong>AquaCheck NPSH · Succión y cavitación</strong><small class="desc">NPSH disponible, pérdidas, curva de bomba y esquema de cisterna.</small></span></b><span>ABRIR HERRAMIENTA</span></a></div></section>
-      </div><div class="footer">Aquaelite® · Acceso personal y sujeto a vigencia comercial</div>
+        </div>
+      </div><div class="footer">Aquaelite® · Catálogo de herramientas gratuitas</div>
     </div>
   </section>
 </main>
 <script>
 const API='https://script.google.com/macros/s/AKfycbxQJ5cUTRR_6MAlIvTR4mgCfcI-wK3IaEm3_4EMXrY2hKCzohBkHoynrWxBMlp3lpIT/exec';
 const KEYS={email:'aq_portal_email',token:'aq_portal_token',expires:'aq_portal_expires',name:'aq_portal_name'};
-let currentEmail='';const $=id=>document.getElementById(id);const screens=[$('requestCard'),$('verifyCard'),$('panelCard')];
+/* Solo configurar el endpoint R04 público después de auditarlo; no introducir secretos aquí. */
+const FREE_CONFIG={endpoint:'',enabled:false,actions:{register:'register_free',request:'request_code',verify:'verify_code',check:'check_session'}};
+const FREE_KEYS={email:'aq_free_email',token:'aq_free_token',expires:'aq_free_expires',name:'aq_free_name'};
+let authMode='PAID';
+let currentEmail='';const $=id=>document.getElementById(id);const screens=[$('requestCard'),$('registerCard'),$('verifyCard'),$('panelCard')];
 function showOnly(screen){screens.forEach(x=>x.classList.add('hidden'));screen.classList.remove('hidden')}
 function message(el,text,type){el.textContent=text;el.className='message '+type}
 function clearMessage(el){el.textContent='';el.className='message'}
 function validEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}
-function api(action,params={}){return new Promise((resolve,reject)=>{const cb='aq_'+Date.now()+'_'+Math.floor(Math.random()*1e6),s=document.createElement('script');let done=false;const finish=()=>{if(done)return;done=true;delete window[cb];s.remove()};const timer=setTimeout(()=>{finish();reject(new Error('timeout'))},18000);window[cb]=r=>{clearTimeout(timer);finish();resolve(r)};s.src=API+'?'+new URLSearchParams({action,callback:cb,...params});s.onerror=()=>{clearTimeout(timer);finish();reject(new Error('network'))};document.body.appendChild(s)})}
-async function requestCode(){clearMessage($('requestMessage'));const email=$('email').value.trim().toLowerCase();if(!validEmail(email)){message($('requestMessage'),'Ingresa un correo válido.','error');return}currentEmail=email;$('sendBtn').disabled=true;$('sendBtn').textContent='ENVIANDO...';try{const r=await api('request_code',{correo:email});if(r?.ok){$('maskedEmail').textContent=r.maskedEmail||email;showOnly($('verifyCard'))}else message($('requestMessage'),r?.message||'No pudimos enviar el código.','error')}catch{message($('requestMessage'),'No pudimos conectar con el sistema. Intenta nuevamente.','error')}finally{$('sendBtn').disabled=false;$('sendBtn').textContent='ENVIAR CÓDIGO DE ACCESO'}}
-async function verifyCode(){clearMessage($('verifyMessage'));const code=$('code').value.trim();if(!/^\d{6}$/.test(code)){message($('verifyMessage'),'Ingresa los 6 dígitos.','error');return}$('verifyBtn').disabled=true;try{const r=await api('verify_code',{correo:currentEmail,codigo:code});if(r?.ok){saveSession(r);renderPanel(r)}else message($('verifyMessage'),r?.message||'No pudimos validar el código.','error')}catch{message($('verifyMessage'),'No pudimos validar el acceso. Intenta nuevamente.','error')}finally{$('verifyBtn').disabled=false}}
-async function resend(){const r=await api('request_code',{correo:currentEmail});message($('verifyMessage'),r?.ok?'Te enviamos un código nuevo.':r?.message||'No pudimos reenviarlo.',r?.ok?'success':'error')}
+function api(action,params={},endpoint=API){return new Promise((resolve,reject)=>{const cb='aq_'+Date.now()+'_'+Math.floor(Math.random()*1e6),s=document.createElement('script');let done=false;const finish=()=>{if(done)return;done=true;delete window[cb];s.remove()};const timer=setTimeout(()=>{finish();reject(new Error('timeout'))},18000);window[cb]=r=>{clearTimeout(timer);finish();resolve(r)};s.src=endpoint+'?'+new URLSearchParams({action,callback:cb,...params});s.onerror=()=>{clearTimeout(timer);finish();reject(new Error('network'))};document.body.appendChild(s)})}
+function freeEnabled(){return FREE_CONFIG.enabled&&FREE_CONFIG.endpoint.startsWith('https://script.google.com/macros/s/')&&FREE_CONFIG.endpoint.endsWith('/exec')}
+function setAuthMode(mode){
+ authMode=mode==='FREE'?'FREE':'PAID';
+ $('loginIntro').textContent=authMode==='FREE'?'Acceso gratuito: solicita un código para ingresar a tus diagnósticos.':'Clientes con acceso comercial: ingresa tu correo para recibir un código de 6 dígitos.';
+ $('freeLoginBtn').classList.toggle('hidden',authMode==='FREE');
+ $('paidLoginBtn').classList.toggle('hidden',authMode==='PAID');
+ clearMessage($('requestMessage'));
+}
+function modeApi(action,params={}){
+ if(authMode==='FREE'){
+  if(!freeEnabled())return Promise.resolve({ok:false,message:'El acceso gratuito está en preparación. Todavía no es posible solicitar códigos.'});
+  return api(FREE_CONFIG.actions[action]||action,params,FREE_CONFIG.endpoint);
+ }
+ return api(action,params);
+}
+async function registerFree(event){
+ event.preventDefault();clearMessage($('freeRegisterMessage'));
+ if(!freeEnabled()){message($('freeRegisterMessage'),'El registro aún no está habilitado. No se enviaron tus datos.','info');return}
+ const nombre=$('freeName').value.trim(),correo=$('freeEmail').value.trim().toLowerCase(),whatsapp=$('freePhone').value.trim(),perfil=$('freeProfile').value;
+ if(nombre.length<5||!validEmail(correo)||whatsapp.replace(/[^0-9]/g,'').length<9||!$('freeConsent').checked){message($('freeRegisterMessage'),'Verifica tu nombre, correo, WhatsApp y consentimiento.','error');return}
+ const button=$('freeSubmitBtn');button.disabled=true;
+ try{
+  const r=await api(FREE_CONFIG.actions.register,{nombre,correo,whatsapp,perfil,consentimiento:'si'},FREE_CONFIG.endpoint);
+  if(!r?.ok){message($('freeRegisterMessage'),r?.message||'No fue posible registrar tus datos.','error');return}
+  setAuthMode('FREE');currentEmail=correo;$('email').value=correo;$('maskedEmail').textContent=r.maskedEmail||correo;$('code').value='';
+  if(r.codigoEnviado===true||r.codeSent===true)showOnly($('verifyCard'));
+  else{showOnly($('requestCard'));message($('requestMessage'),'Registro recibido. Solicita tu código para verificar el correo.','success')}
+ }catch{message($('freeRegisterMessage'),'No fue posible conectar con el registro gratuito.','error')}
+ finally{button.disabled=false}
+}
+async function requestCode(){clearMessage($('requestMessage'));const email=$('email').value.trim().toLowerCase();if(!validEmail(email)){message($('requestMessage'),'Ingresa un correo válido.','error');return}currentEmail=email;$('sendBtn').disabled=true;$('sendBtn').textContent='ENVIANDO...';try{const r=await modeApi('request_code',{correo:email});if(r?.ok){$('maskedEmail').textContent=r.maskedEmail||email;showOnly($('verifyCard'))}else message($('requestMessage'),r?.message||'No pudimos enviar el código.','error')}catch{message($('requestMessage'),'No pudimos conectar con el sistema. Intenta nuevamente.','error')}finally{$('sendBtn').disabled=false;$('sendBtn').textContent='ENVIAR CÓDIGO DE ACCESO'}}
+async function verifyCode(){clearMessage($('verifyMessage'));const code=$('code').value.trim();if(!/^\d{6}$/.test(code)){message($('verifyMessage'),'Ingresa los 6 dígitos.','error');return}$('verifyBtn').disabled=true;try{const r=await modeApi('verify_code',{correo:currentEmail,codigo:code});if(r?.ok){if(authMode==='FREE'){saveFreeSession(r);renderFreePanel(r)}else{saveSession(r);renderPanel(r)}}else message($('verifyMessage'),r?.message||'No pudimos validar el código.','error')}catch{message($('verifyMessage'),'No pudimos validar el acceso. Intenta nuevamente.','error')}finally{$('verifyBtn').disabled=false}}
+async function resend(){const r=await modeApi('request_code',{correo:currentEmail});message($('verifyMessage'),r?.ok?'Te enviamos un código nuevo.':r?.message||'No pudimos reenviarlo.',r?.ok?'success':'error')}
 function saveSession(r){localStorage.setItem(KEYS.email,r.correo);localStorage.setItem(KEYS.token,r.token);localStorage.setItem(KEYS.expires,String(r.expiresAt));localStorage.setItem(KEYS.name,r.nombre||'')}
 function clearSession(){Object.values(KEYS).forEach(k=>localStorage.removeItem(k))}
+function clearFreeSession(){Object.values(FREE_KEYS).forEach(k=>localStorage.removeItem(k))}
+function saveFreeSession(r){
+ if(!r.correo||!r.token||!Number.isFinite(Number(r.expiresAt))||Number(r.expiresAt)<=Date.now())throw Error('Sesión gratuita incompleta');
+ localStorage.setItem(FREE_KEYS.email,r.correo);localStorage.setItem(FREE_KEYS.token,r.token);
+ localStorage.setItem(FREE_KEYS.expires,String(r.expiresAt));localStorage.setItem(FREE_KEYS.name,r.nombre||'');
+}
+function applyCatalogPermissions(){
+ $('freeSelfGroup').classList.remove('hidden');
+ $('servicesIntro').classList.remove('hidden');
+ ['fugasGroup','proGroup','npshAllGroup'].forEach(id=>{
+  const group=$(id);
+  group.classList.remove('hidden','catalog-locked');
+  group.querySelectorAll('a.tool').forEach(link=>{
+   if(link.dataset.catalogUrl)link.setAttribute('href',link.dataset.catalogUrl);
+   link.removeAttribute('aria-disabled');
+   link.removeAttribute('tabindex');
+   link.style.pointerEvents='';
+   if(link.dataset.catalogAction)link.lastElementChild.textContent=link.dataset.catalogAction;
+  });
+ });
+ $('fugasExpiry').textContent='Acceso gratuito';
+ $('proExpiry').textContent='Acceso gratuito';
+ $('catalogNote').textContent='Todas las herramientas de este Portal están disponibles gratuitamente por el momento. Explora los autodiagnósticos, las herramientas para empresas de servicios y las especialidades técnicas.';
+}
+function renderFreePanel(r){
+ const perms=Array.isArray(r.permissions)?r.permissions:[];
+ if(!perms.includes('FREE')){clearFreeSession();showOnly($('requestCard'));message($('requestMessage'),'El servidor no confirmó permisos gratuitos. Comunícate con Aquaelite.','error');return}
+ currentEmail=r.correo||currentEmail;$('userEmail').textContent=currentEmail;
+ $('welcome').textContent=r.nombre?'Hola, '+r.nombre:'Mis herramientas gratuitas';
+ applyCatalogPermissions();
+ showOnly($('panelCard'));
+}
 function formatDate(ms){return ms?new Intl.DateTimeFormat('es-PE',{day:'2-digit',month:'long',year:'numeric'}).format(new Date(ms)):''}
-function renderPanel(r){$('userEmail').textContent=r.correo||currentEmail;$('welcome').textContent=r.nombre?'Hola, '+r.nombre:'Mis herramientas';const perms=r.permissions||[],access=r.access||[];['PRO','FUGAS'].forEach(p=>{const group=$(p==='PRO'?'proGroup':'fugasGroup'),tag=$(p==='PRO'?'proExpiry':'fugasExpiry');if(perms.includes(p)){group.classList.remove('hidden');const item=access.find(x=>x.permission===p);tag.textContent=item?.expiresAt?'Vigente hasta '+formatDate(item.expiresAt):'Acceso vigente'}else group.classList.add('hidden')});$('npshAllGroup').classList.toggle('hidden',perms.includes('PRO'));showOnly($('panelCard'))}
-async function checkStored(){const email=localStorage.getItem(KEYS.email),token=localStorage.getItem(KEYS.token),expires=Number(localStorage.getItem(KEYS.expires)||0);if(!email||!token||Date.now()>expires){clearSession();showOnly($('requestCard'));return}try{const r=await api('check_session',{correo:email,token});if(r?.ok){currentEmail=email;renderPanel(r)}else{clearSession();showOnly($('requestCard'))}}catch{clearSession();showOnly($('requestCard'))}}
-$('sendBtn').onclick=requestCode;$('verifyBtn').onclick=verifyCode;$('resendBtn').onclick=resend;$('changeEmailBtn').onclick=()=>{currentEmail='';$('code').value='';showOnly($('requestCard'))};$('logoutBtn').onclick=()=>{clearSession();currentEmail='';showOnly($('requestCard'))};$('email').addEventListener('keydown',e=>{if(e.key==='Enter')requestCode()});$('code').addEventListener('keydown',e=>{if(e.key==='Enter')verifyCode()});checkStored();
+function renderPanel(r){
+ $('userEmail').textContent=r.correo||currentEmail;
+ $('welcome').textContent=r.nombre?'Hola, '+r.nombre:'Mis herramientas gratuitas';
+ applyCatalogPermissions();
+ showOnly($('panelCard'));
+}
+async function checkFreeStored(){
+ if(!freeEnabled())return false;
+ const email=localStorage.getItem(FREE_KEYS.email),token=localStorage.getItem(FREE_KEYS.token),expires=Number(localStorage.getItem(FREE_KEYS.expires)||0);
+ if(!email||!token||Date.now()>=expires){clearFreeSession();return false}
+ try{
+  const r=await api(FREE_CONFIG.actions.check,{correo:email,token},FREE_CONFIG.endpoint);
+  if(r?.ok&&Array.isArray(r.permissions)&&r.permissions.includes('FREE')){setAuthMode('FREE');currentEmail=email;renderFreePanel(r);return true}
+  clearFreeSession();return false;
+ }catch{return false}
+}
+async function checkStored(){const email=localStorage.getItem(KEYS.email),token=localStorage.getItem(KEYS.token),expires=Number(localStorage.getItem(KEYS.expires)||0);if(!email||!token||Date.now()>expires){clearSession();if(!await checkFreeStored())showOnly($('requestCard'));return}try{const r=await api('check_session',{correo:email,token});if(r?.ok){currentEmail=email;renderPanel(r)}else{clearSession();if(!await checkFreeStored())showOnly($('requestCard'))}}catch{clearSession();if(!await checkFreeStored())showOnly($('requestCard'))}}
+$('showRegisterBtn').onclick=()=>showOnly($('registerCard'));
+$('freeBackBtn').onclick=()=>showOnly($('requestCard'));
+$('freeRegisterForm').onsubmit=registerFree;
+$('freeLoginBtn').onclick=()=>{setAuthMode('FREE');if(!freeEnabled())message($('requestMessage'),'El acceso gratuito está en preparación.','info')};
+$('paidLoginBtn').onclick=()=>setAuthMode('PAID');
+$('freeSubmitBtn').disabled=!freeEnabled();
+$('freeSubmitBtn').textContent=freeEnabled()?'REGISTRARME Y VERIFICAR CORREO':'REGISTRO GRATUITO PENDIENTE DE ACTIVACIÓN';
+$('freeRegistrationStatus').textContent=freeEnabled()?'Verificaremos el correo para habilitar los diagnósticos gratuitos.':'El registro gratuito está preparado, pendiente de validación del servidor R04.';
+$('sendBtn').onclick=requestCode;$('verifyBtn').onclick=verifyCode;$('resendBtn').onclick=resend;$('changeEmailBtn').onclick=()=>{currentEmail='';$('code').value='';showOnly($('requestCard'))};$('logoutBtn').onclick=()=>{clearSession();clearFreeSession();currentEmail='';setAuthMode('PAID');showOnly($('requestCard'))};$('email').addEventListener('keydown',e=>{if(e.key==='Enter')requestCode()});$('code').addEventListener('keydown',e=>{if(e.key==='Enter')verifyCode()});checkStored();
 </script>
 </body>
 </html>
