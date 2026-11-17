@@ -58,6 +58,7 @@
 <a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-pro-tools/ac-pci-003/" target="_blank" rel="noopener"><b><span class="tool-icon">📋</span><span class="tool-copy"><strong>AquaCheck Sala de Bombas · AC-PCI-003</strong><small class="desc">Checklist para inspección, instalación y puesta en marcha de una sala de bombas PCI.</small></span></b><span>ABRIR HERRAMIENTA</span></a></div></section><section id="pumpGroup" class="group pump-simple"><div class="tools"><a class="tool" href="https://aquaelitecapacitaciones.github.io/aquaelite-pro-tools/ac-npsh/" target="_blank" rel="noopener"><b><span class="tool-icon">💧</span><span class="tool-copy"><strong>AquaCheck NPSH · Succión y cavitación</strong><small class="desc">NPSH disponible, pérdidas, curva de bomba y esquema de cisterna.</small></span></b><span>ABRIR HERRAMIENTA</span></a></div></section></div></div>
 <div class="footer">Aquaelite® · Portal Digital · Herramientas gratuitas</div></section></main>
 <script>
+const START_ATTRIBUTION=<?!= startAttribution ?>;
 let accountEmail='',sessionToken='';
 const el=id=>document.getElementById(id);
 function status(t){el('status').textContent=t}
@@ -80,7 +81,7 @@ function requestCode(){accountEmail=mail();if(!accountEmail){status('Ingresa tu 
 function verifyCode(){
  accountEmail=mail();const code=el('pin').value.trim();
  if(!/^\d{6}$/.test(code)){status('Ingresa los seis dígitos.');return}
- rpc('freeVerifyCode',[accountEmail,code],'verifyBtn',r=>{
+ rpc('freeVerifyCode',[accountEmail,code,START_ATTRIBUTION.origen,START_ATTRIBUTION.campania],'verifyBtn',r=>{
   if(!Array.isArray(r.permissions)||!r.permissions.includes('FREE')){status('Sin permiso FREE.');return}
   sessionToken=r.token;el('greeting').textContent='Portal Gratuito de Herramientas';
   el('access').classList.add('hidden');el('tools').classList.remove('hidden');
